@@ -1,4 +1,4 @@
 class Location < ApplicationRecord
   belongs_to :user, dependent: :destroy
-  belongs_to :provinces
+  belongs_to :province
 end

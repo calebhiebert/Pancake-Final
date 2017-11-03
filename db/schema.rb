@@ -13,36 +13,36 @@
 ActiveRecord::Schema.define(version: 20171024170909) do
 
   create_table "locations", force: :cascade do |t|
-    t.integer "users_id"
-    t.integer "provinces_id"
+    t.integer "user_id"
+    t.integer "province_id"
     t.string "address"
     t.string "postal_code"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["provinces_id"], name: "index_locations_on_provinces_id"
-    t.index ["users_id"], name: "index_locations_on_users_id"
+    t.index ["province_id"], name: "index_locations_on_province_id"
+    t.index ["user_id"], name: "index_locations_on_user_id"
   end
 
   create_table "order_products", force: :cascade do |t|
-    t.integer "orders_id"
-    t.integer "products_id"
+    t.integer "order_id"
+    t.integer "product_id"
     t.integer "quantity"
     t.decimal "price"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["orders_id"], name: "index_order_products_on_orders_id"
-    t.index ["products_id"], name: "index_order_products_on_products_id"
+    t.index ["order_id"], name: "index_order_products_on_order_id"
+    t.index ["product_id"], name: "index_order_products_on_product_id"
   end
 
   create_table "orders", force: :cascade do |t|
-    t.integer "users_id"
+    t.integer "user_id"
     t.string "status"
     t.decimal "pst"
     t.decimal "gst"
     t.decimal "hst"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["users_id"], name: "index_orders_on_users_id"
+    t.index ["user_id"], name: "index_orders_on_user_id"
   end
 
   create_table "products", force: :cascade do |t|

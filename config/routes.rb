@@ -3,4 +3,5 @@ Rails.application.routes.draw do
   get '/users', to: 'users#index'
   get '/users/:id', to: 'users#show'
   get '/products', to: 'products#index'
+  get '/orders', to: 'orders#index'
 end

@@ -11,11 +11,15 @@ Province.create([
                   { province_code: 'AB', gst: 0.05, pst: 0, hst: 0 }
                 ])
 
-User.create(first_name: 'Caleb',
+usr = User.create(first_name: 'Caleb',
             last_name: 'Hiebert',
             email: 'calebkhiebert@gmail.com')
 
-Product.create(name: 'Generic Wooden Trinket',
+prd = Product.create(name: 'Generic Wooden Trinket',
                description: 'Wood',
                price: 1.55,
                stock_quantity: 5)
+
+ord = usr.order.create(status: 'UNFILLED', pst: 0.1, gst: 0.15)
+
+ord.products.add(prd)
