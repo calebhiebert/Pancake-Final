@@ -20,6 +20,6 @@ prd = Product.create(name: 'Generic Wooden Trinket',
                price: 1.55,
                stock_quantity: 5)
 
-ord = usr.order.create(status: 'UNFILLED', pst: 0.1, gst: 0.15)
+ord = usr.orders.create(status: 'UNFILLED', pst: 0.1, gst: 0.15)
 
-ord.products.add(prd)
+OrderProduct.create(order: ord, product: prd, quantity: 5, price: 15.99)

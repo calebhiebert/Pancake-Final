@@ -1,4 +1,4 @@
 class User < ApplicationRecord
   has_one :location
-  has_many :order
+  has_many :orders
 end
