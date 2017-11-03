@@ -17,9 +17,12 @@
 !/log/.keep
 !/tmp/.keep
 
-/node_modules
+/public/frontend/node_modules
 /yarn-error.log
 
 .byebug_history
 
 .idea/*
+
+/public/node_modules
+/public/dist
