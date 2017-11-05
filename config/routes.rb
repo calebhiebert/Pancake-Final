@@ -9,5 +9,5 @@ Rails.application.routes.draw do
   post '/products/:id' => 'products#update'
 
   get '/pages' => 'pages#index'
-  get '/pages/:id' => 'pages#show'
+  get '/pages/:title' => 'pages#show'
 end

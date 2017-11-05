@@ -1,6 +1,6 @@
 <template>
   <div class="ui container" id="app">
-    <nav-bar></nav-bar>
+    <nav-bar :pages="pages"></nav-bar>
     <router-view></router-view>
   </div>
 </template>

@@ -11,7 +11,11 @@ class PagesController < ApplicationController
   # GET /pages/1
   # GET /pages/1.json
   def show
-    render json: @page
+    if @page.nil?
+      render json: { error: 'NOT FOUND' }, status: :not_found
+    else
+      render json: @page
+    end
   end
 
   # POST /pages
@@ -46,7 +50,7 @@ class PagesController < ApplicationController
 
   # Use callbacks to share common setup or constraints between actions.
   def set_page
-    @page = Page.find(params[:id])
+    @page = Page.find_by(title: params[:title])
   end
 
   # Never trust parameters from the scary internet, only allow the white list through.
