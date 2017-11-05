@@ -7,15 +7,11 @@ class ProductsController < ApplicationController
   end
 
   def show
-    logger.info("Session: #{session[:last_viewed_product]}")
-    session[:last_viewed_product] = 'wiggly jiggy'
     render json: @product
   end
 
   def create
     @product = Product.new(product_params)
-
-    logger.debug product_params
 
     if @product.save
       render json: @product, status: :created

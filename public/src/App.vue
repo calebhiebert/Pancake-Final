@@ -6,10 +6,23 @@
 </template>
 
 <script>
+  import {HTTP} from './http-common'
   import NavBar from "./components/NavBar.vue";
 
   export default {
     components: {NavBar},
-    name: 'app'
+    name: 'app',
+
+    data() {
+      return {
+        pages: []
+      }
+    },
+
+    created() {
+      HTTP.get('/pages')
+        .then(pages => {console.log(pages); this.pages = pages})
+        .catch(err => console.log(err))
+    }
   }
 </script>
