@@ -10,7 +10,7 @@
     </thead>
     <tbody>
     <tr v-for="page in pages">
-      <td class="collapsing"><button class="ui basic icon button"><i class="edit icon"></i></button></td>
+      <td class="collapsing"><button class="ui basic icon button" @click="$router.push({ name: 'AdminPagesEdit', params: { title: page.title }})"><i class="edit icon"></i></button></td>
       <td>{{page.title}}</td>
       <td>{{page.created_at}}</td>
       <td>{{page.updated_at}}</td>

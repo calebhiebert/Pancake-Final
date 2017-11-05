@@ -16,6 +16,7 @@
       </div>
     </form>
     <button class="ui right floated primary button" :class="{ disabled: errors.any(), loading: status == 'SENT' }" @click="doEdit">Save</button>
+    <button class="ui right floated button" @click="$router.push({name: 'AdminPagesView'})">Cancel</button>
   </div>
 </template>
 <style>
@@ -59,7 +60,7 @@
         this.status = 'SENT';
 
         HTTP.post('/pages/' + this.originalTitle, this.page)
-          .then(response => { this.$router.push({name: 'PageView', params: { title: response.data.title }}); this.status = 'OK' })
+          .then(response => { this.$router.push({name: 'AdminPagesView'}); this.status = 'OK' })
           .catch(err => { console.log(err); this.status = 'ERR' })
       }
     }
