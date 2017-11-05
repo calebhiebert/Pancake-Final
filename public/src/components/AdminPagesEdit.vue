@@ -3,7 +3,7 @@
     <form class="ui form" :class="{ error: errors.any() }">
       <div class="field">
         <label for="title">Title</label>
-        <input id="title" type="text" name="title" v-model="page.title" v-validate="{ required: true, min: 3, max: 255 }">
+        <input id="title" name="title" v-model="page.title" v-validate="{ required: true, min: 3, max: 255 }">
       </div>
       <div class="field">
         <label for="content">Content</label>
@@ -15,7 +15,7 @@
         </ul>
       </div>
     </form>
-    <button class="ui right floated primary button" :class="{ disabled: errors.any(), loading: status == 'SENT' }" @click="doCreate">Create</button>
+    <button class="ui right floated primary button" :class="{ disabled: errors.any(), loading: status == 'SENT' }" @click="doEdit">Save</button>
   </div>
 </template>
 <style>
@@ -36,6 +36,8 @@
       return {
         status: '',
 
+        originalTitle: '',
+
         page: {
           title: '',
           content: ''
@@ -43,12 +45,21 @@
       }
     },
 
+    created() {
+      HTTP.get('/pages/' + this.$route.params.title)
+        .then(response => {
+          this.originalTitle = response.data.title;
+          this.page = response.data
+        })
+        .catch(err => console.log(err))
+    },
+
     methods: {
-      doCreate() {
+      doEdit() {
         this.status = 'SENT';
 
-        HTTP.post('/pages', this.page)
-          .then(response => { console.log(response); this.status = 'OK' })
+        HTTP.post('/pages/' + this.originalTitle, this.page)
+          .then(response => { this.$router.push({name: 'PageView', params: { title: response.data.title }}); this.status = 'OK' })
           .catch(err => { console.log(err); this.status = 'ERR' })
       }
     }

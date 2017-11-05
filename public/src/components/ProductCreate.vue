@@ -24,7 +24,7 @@
         </ul>
       </div>
     </form>
-    <button class="ui primary button" :class="{ loading: createStatus == 'SENT', disabled: errors.any() }" @click="doCreate">Create</button>
+    <button class="ui primary button" :class="{ loading: status == 'SENT', disabled: errors.any() }" @click="doCreate">Create</button>
     <button class="ui button" @click="$router.push({ name: 'Home' })">Cancel</button>
   </div>
 </template>
@@ -39,7 +39,7 @@
 
     data() {
       return {
-        createStatus: '',
+        status: '',
 
         product: {
           name: '',
@@ -53,7 +53,7 @@
 
     methods: {
       doCreate() {
-        this.createStatus = 'SENT';
+        this.status = 'SENT';
 
         HTTP.post('/products', {
           name: this.product.name,
@@ -62,11 +62,11 @@
           price: this.product.price
         })
           .then(response => {
-            this.createStatus = 'CREATED';
+            this.status = 'CREATED';
             console.log(response)
           })
           .catch(err => {
-            this.createStatus = 'ERROR';
+            this.status = 'ERROR';
             console.log(err)
           })
       }
