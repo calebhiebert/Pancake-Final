@@ -4,5 +4,7 @@ Rails.application.routes.draw do
   get '/users/:id' => 'users#show'
   get '/products' => 'products#index'
   get '/orders' => 'orders#index'
+  get '/products/:id' => 'products#show'
   post '/products' => 'products#create'
+  post '/products/:id' => 'products#update'
 end
