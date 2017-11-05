@@ -9,7 +9,7 @@
 
 <script>
   import {HTTP} from '../http-common'
-  import ProductView from "./ProductView.vue";
+  import ProductView from "./ProductViewListItem.vue";
 
   export default {
     components: {ProductView},

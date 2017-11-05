@@ -24,13 +24,14 @@
         </ul>
       </div>
     </form>
-    <button class="ui primary button">Create</button>
+    <button class="ui primary button" :class="{ loading: createStatus == 'SENT' }" @click="doCreate">Create</button>
     <button class="ui button" @click="$router.push({ name: 'Home' })">Cancel</button>
   </div>
 </template>
 <script>
   import Vue from 'vue'
   import VeeValidate from 'vee-validate'
+  import {HTTP} from '../http-common'
   Vue.use(VeeValidate);
 
   export default {
@@ -38,6 +39,8 @@
 
     data() {
       return {
+        createStatus: '',
+
         product: {
           name: '',
           description: '',
@@ -45,6 +48,27 @@
           price: '',
           category: ''
         }
+      }
+    },
+
+    methods: {
+      doCreate() {
+        this.createStatus = 'SENT';
+
+        HTTP.post('/products', {
+          name: this.product.name,
+          description: this.product.description,
+          stock_quantity: this.product.stockQuantity,
+          price: this.product.price
+        })
+          .then(response => {
+            this.createStatus = 'CREATED';
+            console.log(response)
+          })
+          .catch(err => {
+            this.createStatus = 'ERROR';
+            console.log(err)
+          })
       }
     }
   }
