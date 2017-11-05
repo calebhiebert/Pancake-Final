@@ -3,7 +3,7 @@
     <form class="ui form" :class="{ error: errors.any() }">
       <div class="field">
         <label for="title">Title</label>
-        <input id="title" type="text" name="title" v-model="page.title" v-validate="{ required: true, min: 3, max: 255 }">
+        <input id="title" name="title" v-model="page.title" v-validate="{ required: true, min: 3, max: 255 }">
       </div>
       <div class="field">
         <label for="content">Content</label>
