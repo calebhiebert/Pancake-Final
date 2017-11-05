@@ -1,21 +1,27 @@
 <template>
   <div>
-    <form class="ui form">
+    <form class="ui form" :class="{ error: errors.any() }">
       <div class="field">
         <label>Name</label>
-        <input type="text" v-model="product.name">
+        <input type="text" name="name" v-model="product.name" v-validate="{ required: true, min: 3, max: 255 }">
       </div>
+
       <div class="field">
         <label>Description</label>
-        <textarea v-model="product.description"></textarea>
+        <textarea v-model="product.description" name="description" v-validate="{ required: true, min: 3, max: 16000 }"></textarea>
       </div>
       <div class="field">
         <label>Stock Quantity</label>
-        <input type="number" v-model="product.stockQuantity">
+        <input type="number" v-model="product.stockQuantity" name="stock_quantity" v-validate="{ required: true, min_value: 0 }">
       </div>
       <div class="field">
         <label>Price</label>
-        <input type="number" v-model="product.price">
+        <input type="number" v-model="product.price" name="price" v-validate="{ required: true, min_value: 0.00 }">
+      </div>
+      <div class="ui error message" v-if="errors.any()">
+        <ul>
+          <li v-for="error in errors.all()">{{ error }}</li>
+        </ul>
       </div>
     </form>
     <button class="ui primary button">Create</button>
@@ -23,6 +29,10 @@
   </div>
 </template>
 <script>
+  import Vue from 'vue'
+  import VeeValidate from 'vee-validate'
+  Vue.use(VeeValidate);
+
   export default {
     name: 'ProductCreate',
 
