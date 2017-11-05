@@ -21,7 +21,7 @@
 
     created() {
       HTTP.get('/pages')
-        .then(pages => {console.log(pages); this.pages = pages})
+        .then(pages => {console.log(pages); this.pages = pages.data})
         .catch(err => console.log(err))
     }
   }

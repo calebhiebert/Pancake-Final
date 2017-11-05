@@ -3,6 +3,7 @@ import Router from 'vue-router'
 import Home from '@/components/Home'
 import ProductCreate from '@/components/ProductCreate'
 import ProductView from '@/components/ProductView'
+import AdminPagesView from '@/components/AdminPagesView'
 
 Vue.use(Router);
 
@@ -22,6 +23,11 @@ export default new Router({
       path: '/product/:id',
       name: 'ProductView',
       component: ProductView
+    },
+    {
+      path: '/admin/pages',
+      name: 'AdminPagesView',
+      component: AdminPagesView
     }
   ]
 })
