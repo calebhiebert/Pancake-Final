@@ -4,6 +4,8 @@ import Home from '@/components/Home'
 import ProductCreate from '@/components/ProductCreate'
 import ProductView from '@/components/ProductView'
 import AdminPagesView from '@/components/AdminPagesView'
+import AdminPagesCreate from '@/components/AdminPagesCreate'
+import PageView from '@/components/PageView'
 
 Vue.use(Router);
 
@@ -28,6 +30,16 @@ export default new Router({
       path: '/admin/pages',
       name: 'AdminPagesView',
       component: AdminPagesView
+    },
+    {
+      path: '/admin/pages/create',
+      name: 'AdminPagesCreate',
+      component: AdminPagesCreate
+    },
+    {
+      path: '/page/:title',
+      name: 'PageView',
+      component: PageView
     }
   ]
 })

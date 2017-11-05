@@ -10,4 +10,6 @@ Rails.application.routes.draw do
 
   get '/pages' => 'pages#index'
   get '/pages/:title' => 'pages#show'
+  post '/pages' => 'pages#create'
+  post '/pages/:title' => 'pages#update'
 end
