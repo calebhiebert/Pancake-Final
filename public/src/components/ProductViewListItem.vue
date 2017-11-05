@@ -1,10 +1,11 @@
 <template>
   <div class="item">
-    <div class="image">
-      <img src="https://semantic-ui.com/images/wireframe/image.png">
+    <div class="ui image">
+      <div class="ui red ribbon label">New!</div>
+      <img :src="IMG(0, 1084, 300, 300)">
     </div>
     <div class="content">
-      <a class="header">{{ product.name }}</a>
+      <router-link :to="{ name: 'ProductView', params: { id: product.id } }" class="header">{{ product.name }}</router-link>
       <div class="description">
         <p>{{ product.description }}</p>
       </div>
@@ -12,8 +13,12 @@
   </div>
 </template>
 <script>
+  import {IMGURL} from '../imageTools'
+
   export default {
     name: 'ProductView',
-    props: ['product']
+    props: ['product'],
+
+    methods: { IMG: IMGURL.getImg }
   }
 </script>

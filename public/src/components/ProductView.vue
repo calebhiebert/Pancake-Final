@@ -7,7 +7,7 @@
   </div>
   <div class="ui three column grid" v-else>
     <div class="four wide column">
-      <img class="ui fluid image" src="https://images-na.ssl-images-amazon.com/images/I/71hg2oI%2BETL._SL1500_.jpg">
+      <img class="ui fluid image" :src="IMG()">
     </div>
     <div class="eight wide column">
       <h3 class="ui header">{{product.name}}</h3>
@@ -26,6 +26,7 @@
 <script>
   import {HTTP} from '../http-common'
   import Cart from "./CartView.vue";
+  import {IMGURL} from '../imageTools'
 
   export default {
     components: {Cart},
@@ -45,6 +46,10 @@
           this.product = response.data
         })
         .catch(err => console.log(err))
+    },
+
+    methods: {
+      IMG() { return IMGURL.getImg(0, 1084, 300, 300) }
     }
   }
 </script>
