@@ -63,7 +63,7 @@
         })
           .then(response => {
             this.status = 'CREATED';
-            console.log(response)
+            this.$router.push({name: 'AdminIndex'})
           })
           .catch(err => {
             this.status = 'ERROR';

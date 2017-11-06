@@ -13,7 +13,7 @@
       <h3 class="ui header">{{product.name}}</h3>
       <div class="ui left pointing basic label"><i class="dollar icon"></i>{{product.price}}</div>
       <div class="ui green label" v-if="product.stock_quantity > 3">In stock</div>
-      <div class="ui orange label" v-else-if="product.stock_quantity > 0">{{product.stock_quantity}} left</div>
+      <div class="ui orange label" v-else-if="product.stock_quantity > 0">Only {{product.stock_quantity}} left in stock</div>
       <div class="ui red label" v-else>Out of stock</div>
       <div class="ui divider"></div>
       <p>{{product.description}}</p>
