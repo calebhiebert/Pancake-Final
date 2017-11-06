@@ -20,5 +20,6 @@ Rails.application.routes.draw do
 
   # Cart
   post '/cart/add' => 'cart#add_to_cart'
+  post '/cart/clear' => 'cart#clear'
   get '/cart' => 'cart#get'
 end

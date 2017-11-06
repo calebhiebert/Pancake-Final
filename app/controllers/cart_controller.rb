@@ -7,13 +7,39 @@ class CartController < ApplicationController
       render json: { error: 'Product not found' }, status: :not_found
     else
       session[:cart] = [] if session[:cart].nil?
-      session[:cart] << { product: product, quantity: parms['quantity'] }
-      get
+
+      existing = session[:cart].find { |item| item['product'] == product.id }
+      render json: existing
+
+      if !existing.nil?
+        existing[:quantity] = parms[:quantity]
+      else
+        session[:cart] << { product: product.id, quantity: parms[:quantity] }
+      end
+
+      # get
     end
   end
 
   def get
+    session[:cart] = [] if session[:cart].nil?
+
+    full_cart = []
+
+    session[:cart].each do |item|
+      product = Product.where(id: item[:product]).first
+
+      next if product.nil? do
+        full_cart << { product: product,
+                       quantity: item[:quantity] }
+      end
+    end
+
     render json: session[:cart]
+  end
+
+  def clear
+    session.delete(:cart)
   end
 
   private
