@@ -9,7 +9,7 @@ Rails.application.configure do
   # Do not eager load code on boot.
   config.eager_load = false
 
-  config.web_console.whitelisted_ips = '192.168.0.0/16'
+  config.web_console.whitelisted_ips = '192.168.0.0/16', '10.0.2.2'
 
   config.debug_exception_response_format = :api
 
