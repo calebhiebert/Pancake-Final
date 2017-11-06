@@ -8,6 +8,7 @@ import AdminPagesCreate from '@/components/AdminPagesCreate'
 import AdminPagesEdit from '@/components/AdminPagesEdit'
 import PageView from '@/components/PageView'
 import AdminProductView from '@/components/AdminProductsView'
+import AdminIndex from '@/components/AdminIndex'
 
 Vue.use(Router);
 
@@ -24,6 +25,9 @@ export default new Router({
     {path: '/admin/pages', name: 'AdminPagesView', component: AdminPagesView},
     {path: '/admin/pages/create', name: 'AdminPagesCreate', component: AdminPagesCreate},
     {path: '/admin/pages/:title', name: 'AdminPagesEdit', component: AdminPagesEdit},
-    {path: '/page/:title', name: 'PageView', component: PageView}
+    {path: '/page/:title', name: 'PageView', component: PageView},
+
+    //Admin
+    {path: '/admin', name: 'AdminIndex', component: AdminIndex}
   ]
 })

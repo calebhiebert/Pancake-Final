@@ -12,8 +12,10 @@
     </tr>
     </thead>
     <tbody>
-    <tr v-for="product in products">
-      <td class="collapsing"><button class="ui basic icon button"><i class="edit icon"></i></button></td>
+    <tr v-for="product in productsInPage">
+      <td class="collapsing">
+        <button class="ui basic icon button"><i class="edit icon"></i></button>
+      </td>
       <td>{{product.name}}</td>
       <td>{{product.description}}</td>
       <td>{{product.stock_quantity}}</td>
@@ -22,6 +24,17 @@
       <td>{{product.updated_at}}</td>
     </tr>
     </tbody>
+    <tfoot>
+    <tr>
+      <th colspan="7">
+        <div class="ui right floated pagination menu">
+          <a class="icon item" @click="prevPage()"><i class="left chevron icon"></i></a>
+          <a class="item" v-for="n in numPages" :class="{ active: page == n }" @click="page = n">{{n}}</a>
+          <a class="icon item" @click="nextPage()"><i class="right chevron icon"></i></a>
+        </div>
+      </th>
+    </tr>
+    </tfoot>
   </table>
 </template>
 <script>
@@ -32,14 +45,46 @@
 
     data() {
       return {
+        page: 1,
+        productsPerPage: 3,
         products: []
+      }
+    },
+
+    computed: {
+      numPages() {
+        return Math.ceil(this.products.length / this.productsPerPage)
+      },
+      productsInPage() {
+        let start = (this.page - 1) * this.productsPerPage;
+        return this.products.slice(start, start + this.productsPerPage)
+      }
+    },
+
+    methods: {
+      nextPage() {
+        if(this.page < this.numPages)
+          this.page++
+      },
+
+      prevPage() {
+        if(this.page > 1)
+          this.page--
+      }
+    },
+
+    watch: {
+      products() {
+        console.log('Products Updated')
+        console.log(this.numPages);
       }
     },
 
     created() {
       HTTP.get('/products')
         .then(response => {
-          this.products = response.data
+          this.products = response.data;
+          console.log('Products downloaded')
         })
         .catch(err => console.log(err))
     }
