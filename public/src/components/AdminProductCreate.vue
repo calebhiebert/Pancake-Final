@@ -25,7 +25,7 @@
       </div>
     </form>
     <button class="ui primary button" :class="{ loading: status == 'SENT', disabled: errors.any() }" @click="doCreate">Create</button>
-    <button class="ui button" @click="$router.push({ name: 'Home' })">Cancel</button>
+    <button class="ui button" @click="$router.push({ name: 'AdminIndex' })">Cancel</button>
   </div>
 </template>
 <script>

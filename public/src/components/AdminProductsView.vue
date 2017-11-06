@@ -27,6 +27,7 @@
     <tfoot>
     <tr>
       <th colspan="7">
+        <button class="ui primary button" @click="$router.push({name: 'AdminProductCreate'})">Add Product</button>
         <div class="ui right floated pagination menu">
           <a class="icon item" @click="prevPage()"><i class="left chevron icon"></i></a>
           <a class="item" v-for="n in numPages" :class="{ active: page == n }" @click="page = n">{{n}}</a>
@@ -73,18 +74,10 @@
       }
     },
 
-    watch: {
-      products() {
-        console.log('Products Updated')
-        console.log(this.numPages);
-      }
-    },
-
     created() {
       HTTP.get('/products')
         .then(response => {
           this.products = response.data;
-          console.log('Products downloaded')
         })
         .catch(err => console.log(err))
     }

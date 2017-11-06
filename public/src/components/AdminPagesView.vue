@@ -16,6 +16,13 @@
       <td>{{page.updated_at}}</td>
     </tr>
     </tbody>
+    <tfoot>
+    <tr>
+      <th colspan="4">
+        <button class="ui primary button" @click="$router.push({name: 'AdminPagesCreate'})">Add Page</button>
+      </th>
+    </tr>
+    </tfoot>
   </table>
 </template>
 <script>

@@ -48,7 +48,7 @@
         this.status = 'SENT';
 
         HTTP.post('/pages', this.page)
-          .then(response => { console.log(response); this.status = 'OK' })
+          .then(response => { this.$router.push({name: 'AdminIndex'}); this.status = 'OK' })
           .catch(err => { console.log(err); this.status = 'ERR' })
       }
     }
