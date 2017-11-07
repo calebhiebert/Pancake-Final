@@ -1,8 +1,9 @@
 <template>
-  <div class="ui segment">
-    <button class="ui primary button" @click="addToCart">
-      Add To Cart
-    </button>
+  <div class="ui clearing segment">
+    <!--<button class="ui primary button" @click="addToCart">-->
+      <!--Add To Cart-->
+    <!--</button>-->
+    <h3 class="ui header">Cart</h3>
     <div class="ui celled list">
       <div class="item" v-for="cItem in cart" >
         <img class="ui avatar image" :src="IMG()">
@@ -14,6 +15,7 @@
         </div>
       </div>
     </div>
+    <button class="ui basic green right floated mini circular icon button" :class="{loading: status == 'ADDING'}" @click="addToCart"><i class="plus icon"></i></button>
   </div>
 </template>
 <script>
@@ -27,6 +29,7 @@
 
     data() {
       return {
+        status: 'IDLE',
         cart: []
       }
     },
@@ -39,9 +42,11 @@
 
     methods: {
       addToCart() {
+        this.status = 'ADDING';
+
         if(this.product !== null) {
           HTTP.post('/cart/add', { product_id: this.product.id, quantity: 1 })
-            .then(response => this.cart = response.data)
+            .then(response => {this.cart = response.data; this.status = 'IDLE'})
             .catch(err => console.log(err))
         }
       },

@@ -58,10 +58,7 @@
 
       load() {
         HTTP.get('/products/' + this.$route.params.id)
-          .then(response => {
-            console.log(response);
-            this.product = response.data
-          })
+          .then(response => {this.product = response.data})
           .catch(err => console.log(err))
       }
     }
