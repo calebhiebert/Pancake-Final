@@ -11,7 +11,7 @@
         <a class="ui item">Logout</a>
         <div class="ui item">
           <div class="ui transparent icon input">
-            <input placeholder="search...">
+            <input placeholder="search..." v-model="search.query">
             <i class="search link icon"></i>
           </div>
         </div>
@@ -23,6 +23,12 @@
   export default {
     name: 'NavBar',
 
-    props: ['pages']
+    props: ['pages', 'search'],
+
+    watch: {
+      'search.query'() {
+        this.$router.push({name: 'SearchView', params: {query: this.search.query}})
+      }
+    }
   }
 </script>

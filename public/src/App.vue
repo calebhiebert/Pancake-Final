@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <nav-bar :pages="pages"></nav-bar>
+    <nav-bar :pages="pages" :search="search"></nav-bar>
     <br/>
     <router-view></router-view>
   </div>
@@ -16,7 +16,10 @@
 
     data() {
       return {
-        pages: []
+        pages: [],
+        search: {
+          query: ''
+        }
       }
     },
 

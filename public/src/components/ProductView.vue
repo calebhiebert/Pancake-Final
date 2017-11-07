@@ -34,6 +34,8 @@
     components: {Cart},
     name: 'ProductView',
 
+    props: ['search'],
+
     data() {
       return {
         loadStatus: 'LOADING',
