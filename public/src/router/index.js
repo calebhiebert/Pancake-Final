@@ -19,8 +19,8 @@ export default new Router({
     //Products
     {path: '/admin/product/create', name: 'AdminProductCreate', component: AdminProductCreate},
     {path: '/admin/product/:id', name: 'AdminProductEdit', component: AdminProductEdit},
-    {path: '/product/:id', name: 'ProductView', component: ProductView},
     {path: '/product/search', name: 'SearchView', component: SearchView},
+    {path: '/product/:id', name: 'ProductView', component: ProductView},
 
     //Pages
     {path: '/admin/pages/create', name: 'AdminPagesCreate', component: AdminPagesCreate},

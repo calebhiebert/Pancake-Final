@@ -27,7 +27,10 @@
 
     watch: {
       'search.query'() {
-        this.$router.push({name: 'SearchView', params: {query: this.search.query}})
+        if(this.$route.name !== 'SearchView') {
+          this.$router.push({name: 'SearchView', query: {query: this.search.query}});
+          this.search.query = ''
+        }
       }
     }
   }

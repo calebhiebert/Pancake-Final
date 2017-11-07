@@ -1,8 +1,8 @@
 <template>
   <div class="item">
-    <div class="ui image">
+    <div class="ui small rounded image">
       <div class="ui red ribbon label">New!</div>
-      <img :src="IMG(0, 1084, 300, 300)">
+      <img :src="IMG(0, 1084, 150, 150)">
     </div>
     <div class="content">
       <router-link :to="{ name: 'ProductView', params: { id: product.id } }" class="header">{{ product.name }}</router-link>
@@ -16,7 +16,7 @@
   import {IMGURL} from '../imageTools'
 
   export default {
-    name: 'ProductView',
+    name: 'ProductViewListItem',
     props: ['product'],
 
     methods: { IMG: IMGURL.getImg }
