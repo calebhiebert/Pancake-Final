@@ -22,9 +22,11 @@ class CartController < ApplicationController
     session[:cart].each do |item|
       item = item.symbolize_keys
 
-      product = Product.find(item[:product])
+      product = Product.where(id: item[:product]).first
 
-      unless product.nil?
+      if product.nil?
+        remove_from_cart_by_product_id(item[:product])
+      else
         full_cart << { product: product, quantity: item[:quantity] }
       end
     end

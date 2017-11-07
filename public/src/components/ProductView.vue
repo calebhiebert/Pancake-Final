@@ -19,7 +19,7 @@
       <p>{{product.description}}</p>
     </div>
     <div class="right floated left aligned four wide column">
-      <cart></cart>
+      <cart :product="product"></cart>
     </div>
   </div>
 </template>
@@ -40,16 +40,24 @@
     },
 
     created() {
-      HTTP.get('/products/' + this.$route.params.id)
-        .then(response => {
-          console.log(response);
-          this.product = response.data
-        })
-        .catch(err => console.log(err))
+      this.load()
+    },
+
+    watch: {
+      $route: 'load'
     },
 
     methods: {
-      IMG() { return IMGURL.getImg(0, 1084, 300, 300) }
+      IMG() { return IMGURL.getImg(0, 1084, 300, 300) },
+
+      load() {
+        HTTP.get('/products/' + this.$route.params.id)
+          .then(response => {
+            console.log(response);
+            this.product = response.data
+          })
+          .catch(err => console.log(err))
+      }
     }
   }
 </script>
