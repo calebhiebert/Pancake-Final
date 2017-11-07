@@ -6,14 +6,14 @@
         <select class="ui compact selection dropdown">
           <option>This is an option</option>
         </select>
-        <button class="ui teal button">
-          Search
-        </button>
       </div>
     </div>
 
-    <div class="ui divided items">
+    <div class="ui divided items" v-if="items.length > 0 || query.trim() != ''">
       <product-view-list-item v-for="product in items" :product="product" :key="product.id"></product-view-list-item>
+    </div>
+    <div v-else>
+      There were no results :(
     </div>
   </div>
 </template>
@@ -52,6 +52,11 @@
 
     methods: {
       doSearch(query) {
+        if(query.trim() === '') {
+          this.items = [];
+          return;
+        }
+
         HTTP.get('/products/search?query=' + query)
           .then(response => this.items = response.data)
           .catch(err => console.log(err))
