@@ -1,5 +1,5 @@
 <template>
-  <div class="ui clearing segment">
+  <div class="ui clearing container segment">
     <form class="ui form" :class="{ error: errors.any() }">
       <div class="field">
         <label for="name">Name</label>

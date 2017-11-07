@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="ui clearing container segment">
     <form class="ui form" :class="{ error: errors.any() }">
       <div class="field">
         <label for="name">Name</label>
@@ -24,8 +24,8 @@
         </ul>
       </div>
     </form>
-    <button class="ui primary button" :class="{ loading: status == 'SENT', disabled: errors.any() }" @click="doCreate">Create</button>
-    <button class="ui button" @click="$router.push({ name: 'AdminIndex' })">Cancel</button>
+    <button class="ui right floated primary button" :class="{ loading: status == 'SENT', disabled: errors.any() }" @click="doCreate">Create</button>
+    <button class="ui right floated button" @click="$router.push({ name: 'AdminIndex' })">Cancel</button>
   </div>
 </template>
 <script>

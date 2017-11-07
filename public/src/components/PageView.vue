@@ -1,5 +1,5 @@
 <template>
-  <div v-if="page != null">
+  <div class="ui container" v-if="page != null">
     <h2 class="ui header">{{page.title}}</h2>
     <p>{{page.content}}</p>
   </div>

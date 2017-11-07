@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="ui container">
     <h2 class="ui header">Admin</h2>
 
     <h4 class="ui header">Pages</h4>

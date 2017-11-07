@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="ui container">
     <h2 class="ui header">{{ header }}</h2>
     <div class="ui divided items">
       <product-view v-for="product in products" :product="product" :key="product.id"></product-view>

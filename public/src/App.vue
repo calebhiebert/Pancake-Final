@@ -1,6 +1,7 @@
 <template>
-  <div class="ui container" id="app">
+  <div id="app">
     <nav-bar :pages="pages"></nav-bar>
+    <br/>
     <router-view></router-view>
   </div>
 </template>

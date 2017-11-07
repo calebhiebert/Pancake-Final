@@ -28,7 +28,7 @@
     <tr>
       <th colspan="7">
         <button class="ui primary button" @click="$router.push({name: 'AdminProductCreate'})">Add Product</button>
-        <div class="ui right floated pagination menu">
+        <div class="ui right floated pagination menu" v-if="numPages > 1">
           <a class="icon item" @click="prevPage()"><i class="left chevron icon"></i></a>
           <a class="item" v-for="n in numPages" :class="{ active: page == n }" @click="page = n">{{n}}</a>
           <a class="icon item" @click="nextPage()"><i class="right chevron icon"></i></a>
