@@ -1,23 +1,16 @@
 class CartController < ApplicationController
   def add_to_cart
+    session[:cart] = [] if session[:cart].nil?
     parms = add_params
     product = Product.find(parms['product_id'])
 
     if product.nil?
       render json: { error: 'Product not found' }, status: :not_found
     else
-      session[:cart] = [] if session[:cart].nil?
+      remove_from_cart_by_product_id(product.id)
+      session[:cart] << { product: product.id, quantity: parms[:quantity] }
 
-      existing = session[:cart].find { |item| item['product'] == product.id }
-      render json: existing
-
-      if !existing.nil?
-        existing[:quantity] = parms[:quantity]
-      else
-        session[:cart] << { product: product.id, quantity: parms[:quantity] }
-      end
-
-      # get
+      get
     end
   end
 
@@ -27,19 +20,34 @@ class CartController < ApplicationController
     full_cart = []
 
     session[:cart].each do |item|
-      product = Product.where(id: item[:product]).first
+      item = item.symbolize_keys
 
-      next if product.nil? do
-        full_cart << { product: product,
-                       quantity: item[:quantity] }
+      product = Product.find(item[:product])
+
+      unless product.nil?
+        full_cart << { product: product, quantity: item[:quantity] }
       end
     end
-
-    render json: session[:cart]
+    render json: full_cart
   end
 
   def clear
     session.delete(:cart)
+  end
+
+  def remove
+    product = Product.find(add_params[:product_id])
+
+    if !product.nil?
+      remove_from_cart_by_product_id(product.id)
+      get
+    else
+      render json: { error: 'Item not found' }, status: :not_found
+    end
+  end
+
+  def remove_from_cart_by_product_id(id)
+    session[:cart].reject! { |item| item['product'] == id }
   end
 
   private

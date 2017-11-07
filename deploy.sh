@@ -1,7 +1,8 @@
 #!/bin/bash
 
-cd /home/panchem/Pancake-Final
-git pull
+#cd /home/panchem/Pancake-Final
+cd /home/serv/pancake
+#git pull
 
 docker build -t panchem/woodshop .
 
@@ -11,6 +12,7 @@ docker rm woodshop
 docker run \
     --name woodshop \
     -d \
+    -p 3000:3000 \
     -e VIRTUAL_PORT=3000 \
     -e VIRTUAL_HOST="wood.piikl.com" \
     -e LETSENCRYPT_HOST="wood.piikl.com" \

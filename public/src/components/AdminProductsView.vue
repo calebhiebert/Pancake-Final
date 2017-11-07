@@ -14,7 +14,7 @@
     <tbody>
     <tr v-for="product in productsInPage">
       <td class="collapsing">
-        <button class="ui basic icon button"><i class="edit icon"></i></button>
+        <button class="ui basic icon button" @click="$route.push({name: 'AdminProductEdit', params: {id: product.id}})"><i class="edit icon"></i></button>
       </td>
       <td>{{product.name}}</td>
       <td>{{product.description}}</td>

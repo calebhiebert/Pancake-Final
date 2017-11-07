@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import Home from '@/components/Home'
 import AdminProductCreate from '@/components/AdminProductCreate'
+import AdminProductEdit from '@/components/AdminProductEdit'
 import ProductView from '@/components/ProductView'
 import AdminPagesCreate from '@/components/AdminPagesCreate'
 import AdminPagesEdit from '@/components/AdminPagesEdit'
@@ -15,7 +16,8 @@ export default new Router({
     {path: '/', name: 'Home', component: Home},
 
     //Products
-    {path: '/product/create', name: 'AdminProductCreate', component: AdminProductCreate},
+    {path: '/admin/product/create', name: 'AdminProductCreate', component: AdminProductCreate},
+    {path: '/admin/product/:id', name: 'AdminProductEdit', component: AdminProductEdit},
     {path: '/product/:id', name: 'ProductView', component: ProductView},
 
     //Pages
