@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="ui clearing segment">
     <form class="ui form" :class="{ error: errors.any() }">
       <div class="field">
         <label for="name">Name</label>
@@ -12,7 +12,7 @@
       </div>
       <div class="field">
         <label for="stock">Stock Quantity</label>
-        <input id="stock" type="number" v-model="product.stockQuantity" name="stock_quantity" v-validate="{ required: true, min_value: 0 }">
+        <input id="stock" type="number" v-model="product.stock_quantity" name="stock_quantity" v-validate="{ required: true, min_value: 0 }">
       </div>
       <div class="field">
         <label for="price">Price</label>
@@ -24,8 +24,9 @@
         </ul>
       </div>
     </form>
-    <button class="ui primary button" :class="{ loading: status == 'SENT', disabled: errors.any() }" @click="doCreate">Create</button>
-    <button class="ui button" @click="$router.push({ name: 'AdminIndex' })">Cancel</button>
+    <button class="ui right floated primary button" :class="{ loading: status == 'SENT', disabled: errors.any() }" @click="doEdit">Save</button>
+    <button class="ui right floated button" @click="$router.push({ name: 'AdminIndex' })">Cancel</button>
+    <button class="ui right floated basic red button" :class="{ loading: status == 'DELETING'}" @click="doDelete">Delete</button>
   </div>
 </template>
 <script>
@@ -44,34 +45,44 @@
         product: {
           name: '',
           description: '',
-          stockQuantity: 0,
-          price: '',
+          stock_quantity: 0,
+          price: 0,
           category: ''
         }
       }
     },
 
     created() {
-      HTTP.get
+      HTTP.get('/products/' + this.$route.params.id)
+        .then(response => this.product = response.data)
+        .catch(err => console.log(err))
     },
 
     methods: {
-      doCreate() {
+      doEdit() {
         this.status = 'SENT';
 
-        HTTP.post('/products/', {
+        HTTP.post('/products/' + this.product.id, {
           name: this.product.name,
           description: this.product.description,
-          stock_quantity: this.product.stockQuantity,
+          stock_quantity: this.product.stock_quantity,
           price: this.product.price
         })
-          .then(response => {
+          .then(() => {
             this.$router.push({name: 'AdminIndex'})
           })
           .catch(err => {
             this.status = 'ERROR';
             console.log(err)
           })
+      },
+
+      doDelete() {
+        this.status = 'DELETING';
+
+        HTTP.delete('/products/' + this.product.id)
+          .then(() => this.$router.push({name: 'AdminIndex'}))
+          .catch(err => console.log(err))
       }
     }
   }

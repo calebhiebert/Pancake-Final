@@ -12,7 +12,7 @@
       </div>
       <div class="field">
         <label for="stock">Stock Quantity</label>
-        <input id="stock" type="number" v-model="product.stockQuantity" name="stock_quantity" v-validate="{ required: true, min_value: 0 }">
+        <input id="stock" type="number" v-model="product.stock_quantity" name="stock_quantity" v-validate="{ required: true, min_value: 0 }">
       </div>
       <div class="field">
         <label for="price">Price</label>
@@ -44,7 +44,7 @@
         product: {
           name: '',
           description: '',
-          stockQuantity: 0,
+          stock_quantity: 0,
           price: '',
           category: ''
         }
@@ -58,7 +58,7 @@
         HTTP.post('/products', {
           name: this.product.name,
           description: this.product.description,
-          stock_quantity: this.product.stockQuantity,
+          stock_quantity: this.product.stock_quantity,
           price: this.product.price
         })
           .then(response => {

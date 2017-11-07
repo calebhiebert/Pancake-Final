@@ -8,6 +8,7 @@ Rails.application.routes.draw do
   get '/products/:id' => 'products#show'
   post '/products' => 'products#create'
   post '/products/:id' => 'products#update'
+  delete '/products/:id' => 'products#delete'
 
   # Orders
   get '/orders' => 'orders#index'
@@ -17,6 +18,7 @@ Rails.application.routes.draw do
   get '/pages/:title' => 'pages#show'
   post '/pages' => 'pages#create'
   post '/pages/:title' => 'pages#update'
+  delete '/pages/:title' => 'pages#delete'
 
   # Cart
   post '/cart/add' => 'cart#add_to_cart'

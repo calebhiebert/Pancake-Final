@@ -17,6 +17,7 @@
     </form>
     <button class="ui right floated primary button" :class="{ disabled: errors.any(), loading: status == 'SENT' }" @click="doEdit">Save</button>
     <button class="ui right floated button" @click="$router.push({name: 'AdminIndex'})">Cancel</button>
+    <button class="ui right floated basic red button" :class="{ loading: status == 'DELETING' }"  @click="doDelete">Delete</button>
   </div>
 </template>
 <style>
@@ -60,8 +61,16 @@
         this.status = 'SENT';
 
         HTTP.post('/pages/' + this.originalTitle, this.page)
-          .then(response => { this.$router.push({name: 'AdminIndex'}); this.status = 'OK' })
+          .then(response => { this.$router.push({name: 'AdminIndex'}) })
           .catch(err => { console.log(err); this.status = 'ERR' })
+      },
+
+      doDelete() {
+        this.status = 'DELETING';
+
+        HTTP.delete('/pages/' + this.originalTitle)
+          .then(response => { this.$router.push({name: 'AdminIndex'}) })
+          .catch(err => console.log(err))
       }
     }
   }

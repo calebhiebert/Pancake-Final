@@ -1,5 +1,5 @@
 class ProductsController < ApplicationController
-  before_action :set_product, only: %i[update show]
+  before_action :set_product, only: %i[update show delete]
 
   def index
     @products = Product.all
@@ -26,6 +26,11 @@ class ProductsController < ApplicationController
     else
       render json: @product.errors, status: :unprocessabe_entity
     end
+  end
+
+  def delete
+    @product.destroy
+    render json: @product
   end
 
   private

@@ -11,7 +11,7 @@
     <tbody>
     <tr v-for="page in pages">
       <td class="collapsing"><button class="ui basic icon button" @click="$router.push({ name: 'AdminPagesEdit', params: { title: page.title }})"><i class="edit icon"></i></button></td>
-      <td>{{page.title}}</td>
+      <td><router-link :to="{name: 'PageView', params: {title: page.title}}">{{page.title}}</router-link></td>
       <td>{{page.created_at}}</td>
       <td>{{page.updated_at}}</td>
     </tr>

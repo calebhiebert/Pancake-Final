@@ -1,5 +1,5 @@
 class PagesController < ApplicationController
-  before_action :set_page, only: %i[show edit update destroy]
+  before_action :set_page, only: %i[show edit update delete]
 
   # GET /pages
   # GET /pages.json
@@ -41,7 +41,7 @@ class PagesController < ApplicationController
 
   # DELETE /pages/1
   # DELETE /pages/1.json
-  def destroy
+  def delete
     @page.destroy
     render json: @page
   end
