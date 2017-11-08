@@ -59,7 +59,7 @@ class AuthController < ApplicationController
   end
 
   def logout
-
+    session.delete(:user)
   end
 
   private

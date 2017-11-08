@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
+  before_action :require_auth
   before_action :set_user, only: %i[show edit update destroy]
-  before_action :set_default_response_format
 
   def index
     @users = User.all
@@ -24,7 +24,7 @@ class UsersController < ApplicationController
   end
 
   def me
-
+    render json: @calling_user
   end
 
   private

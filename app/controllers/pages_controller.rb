@@ -1,4 +1,5 @@
 class PagesController < ApplicationController
+  before_action :require_admin, only: %i[create update delete]
   before_action :set_page, only: %i[show edit update delete]
 
   # GET /pages

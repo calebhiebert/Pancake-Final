@@ -1,4 +1,5 @@
 class ProductsController < ApplicationController
+  before_action :require_admin, only: %i[create update delete]
   before_action :set_product, only: %i[update show delete]
 
   def index
