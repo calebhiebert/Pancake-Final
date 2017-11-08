@@ -10,7 +10,7 @@ class ApplicationController < ActionController::API
   def require_admin
     require_auth
 
-    unless @calling_user.is_admin
+    unless @calling_user.nil? || @calling_user.is_admin
       render json: { error: 'Admin is required' }, status: :unauthorized
     end
   end
