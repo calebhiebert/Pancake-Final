@@ -5,10 +5,12 @@
       <router-link :to="{name: 'PageView', params: {title: page.title}}" class="item" v-for="page in pages"
                    :key="page.id" :class="{ active: $route.params.title == page.title }">{{page.title}}
       </router-link>
-      <router-link :to="{name: 'AdminIndex'}" class="item" :class="{ active: $route.name == 'AdminIndex' }">Admin
+      <router-link :to="{name: 'AdminIndex'}" class="item" :class="{ active: $route.name == 'AdminIndex' }" v-if="me !== null && me.is_admin">Admin
       </router-link>
       <div class="right menu">
-        <a class="ui item">Logout</a>
+        <a class="ui item" v-if="me === null" @click="$emit('login')">Login</a>
+        <a class="ui item" v-else-if="loggingOut"><div class="ui active inline mini loader"></div></a>
+        <a class="ui item" v-else @click="$emit('logout')">Logout</a>
         <div class="ui item">
           <div class="ui transparent icon input">
             <input placeholder="search..." v-model="search.query">
@@ -23,7 +25,7 @@
   export default {
     name: 'NavBar',
 
-    props: ['pages', 'search'],
+    props: ['pages', 'search', 'me', 'loggingOut'],
 
     watch: {
       'search.query'() {
