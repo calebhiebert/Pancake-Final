@@ -35,7 +35,7 @@ class ProductsController < ApplicationController
   end
 
   def search
-    products = Product.where('name like ?', "%#{params[:query]}%")
+    products = Product.where('name like ? or description like ?', "%#{params[:query]}%", "%#{params[:query]}%")
     render json: products
   end
 
