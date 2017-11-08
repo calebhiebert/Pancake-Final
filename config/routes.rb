@@ -4,7 +4,10 @@ Rails.application.routes.draw do
   # Users
   get '/users' => 'users#index'
   get '/users/:id' => 'users#show'
+  get '/me' => 'users#me'
   post '/register' => 'auth#register'
+  post '/login' => 'auth#login'
+  post '/logout' => 'auth#logout'
 
   # Products
   get '/products' => 'products#index'

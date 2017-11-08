@@ -11,11 +11,6 @@ class AuthController < ApplicationController
       return
     end
 
-    if @location.nil?
-      render json: { error: 'Location required' }
-      return
-    end
-
     if input[:password].empty?
       render json: { error: 'Password is required' },
              status: :unprocessable_entity
@@ -36,17 +31,35 @@ class AuthController < ApplicationController
                     password_digest: password_hash,
                     is_admin: false)
 
+    @location.user = user
+
     if user.save
-      render json: user
+      session[:user] = user.id
+      render json: user, include: :location
     else
       render json: user.errors
     end
+  end
 
-    # location = Location.new(address: input[:address],
-    #                         postal_code: input[:postal_code],
-    #                         province: province)
+  def login
+    info = params.require(:auth).permit(:password, :email)
 
-    # render json: user
+    user = User.where(email: info[:email]).first
+
+    unless user.nil?
+      pass = BCrypt::Password.new(user[:password_digest])
+
+      if pass == info[:password]
+        session[:user] = user.id
+        render json: { message: 'Login okay' }
+      else
+        render json: { error: 'Bad Login' }, status: :bad_request
+      end
+    end
+  end
+
+  def logout
+
   end
 
   private
@@ -57,11 +70,7 @@ class AuthController < ApplicationController
   end
 
   def location
-    if !@province.nil?
-      loc = params.permit(:address, :postal_code)
-      @location = Location.new(address: loc[:address], postal_code: loc[:postal_code], province: @province)
-    else
-      @location = nil
-    end
+    loc = params.require(:auth).permit(:postal_code, :address)
+    @location = Location.new(address: loc[:address], postal_code: loc[:postal_code], province: @province)
   end
 end
