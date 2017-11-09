@@ -8,6 +8,7 @@
       <router-link :to="{name: 'AdminIndex'}" class="item" :class="{ active: $route.name == 'AdminIndex' }" v-if="me !== null && me.is_admin">Admin
       </router-link>
       <div class="right menu">
+        <router-link :to="{name: 'Register'}" class="ui item" v-if="me === null">Register</router-link>
         <a class="ui item" v-if="me === null" @click="$emit('login')">Login</a>
         <a class="ui item" v-else-if="loggingOut"><div class="ui active inline mini loader"></div></a>
         <a class="ui item" v-else @click="$emit('logout')">Logout</a>
