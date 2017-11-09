@@ -14,10 +14,10 @@
     <tbody>
     <tr v-for="product in productsInPage">
       <td class="collapsing">
-        <button class="ui basic icon button" @click="$router.push({name: 'AdminProductEdit', params: {id: product.id}})"><i class="edit icon"></i></button>
+        <i class="edit link icon" @click="$router.push({name: 'AdminProductEdit', params: {id: product.id}})"></i>
       </td>
       <td><router-link :to="{name: 'ProductView', params: {id: product.id}}">{{product.name}}</router-link></td>
-      <td>{{product.description}}</td>
+      <td>{{ truncate(product.description, 150) }}</td>
       <td>{{product.stock_quantity}}</td>
       <td>{{product.price}}</td>
       <td>{{product.created_at}}</td>
@@ -71,6 +71,15 @@
       prevPage() {
         if(this.page > 1)
           this.page--
+      },
+
+      truncate(str, num) {
+        if(str.length > num) {
+          str = str.slice(0, num);
+          return str + '...';
+        } else {
+          return str
+        }
       }
     },
 
