@@ -32,6 +32,15 @@
     methods: {
       doSave() {
         this.saving = true;
+
+        HTTP.post('/provinces', {province_code: this.code, name: this.name, gst: this.gst, pst: this.pst, hst: this.hst})
+          .then(response => {
+            this.$emit('created', response.data);
+            this.saving = false;
+            this.code = this.name = '';
+            this.gst = this.pst = this.hst = 0;
+          })
+          .catch(err => console.log(err))
       }
     }
   }

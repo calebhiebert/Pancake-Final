@@ -41,6 +41,6 @@ class ProvincesController < ApplicationController
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def province_params
-    params.fetch(:province, {})
+    params.require(:province).permit(:province_code, :name, :gst, :pst , :hst)
   end
 end

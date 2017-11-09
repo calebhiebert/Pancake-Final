@@ -11,15 +11,8 @@
     </tr>
     </thead>
     <tbody>
-    <tr v-for="province in provinces">
-      <td class="collapsing" @click="$router.push({ name: 'AdminProvincesEdit', params: { id: province.id }})"><i class="edit link icon"></i></td>
-      <td>{{province.province_code}}</td>
-      <td>{{province.name}}</td>
-      <td>{{province.gst}}</td>
-      <td>{{province.pst}}</td>
-      <td>{{province.hst}}</td>
-    </tr>
-    <admin-province-row-create></admin-province-row-create>
+    <admin-province-row-view v-for="province in provinces" :province="province" :key="province.id"></admin-province-row-view>
+    <admin-province-row-create @created="onNewProvince"></admin-province-row-create>
     </tbody>
     <tfoot>
     <tr>
@@ -33,9 +26,12 @@
 <script>
   import {HTTP} from '../http-common'
   import AdminProvinceRowCreate from "./AdminProvinceRowCreate.vue";
+  import AdminProvinceRowView from "./AdminProvincesRowView.vue";
 
   export default {
-    components: {AdminProvinceRowCreate},
+    components: {
+      AdminProvinceRowView,
+      AdminProvinceRowCreate},
     name: 'AdminProvincesView',
 
     data() {
@@ -45,11 +41,23 @@
     },
 
     created() {
-      HTTP.get('/provinces')
-        .then(response => {
-          this.provinces = response.data
-        })
-        .catch(err => console.log(err))
+      this.load()
+    },
+
+    methods: {
+      load() {
+        HTTP.get('/provinces')
+          .then(response => {
+            response.data.forEach(p => p.editMode = false);
+            this.provinces = response.data;
+          })
+          .catch(err => console.log(err))
+      },
+
+      onNewProvince(province) {
+        province.editMode = false;
+        this.provinces.push(province);
+      }
     }
   }
 </script>
