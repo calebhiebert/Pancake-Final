@@ -11,15 +11,19 @@ Province.create([
                   { province_code: 'AB', gst: 0.05, pst: 0, hst: 0 }
                 ])
 
-usr = User.create(first_name: 'Caleb',
-            last_name: 'Hiebert',
-            email: 'calebkhiebert@gmail.com')
+admin_password = BCrypt::Password.create('admin')
+usr = User.new(first_name: 'Admin', last_name: 'Adminison',
+            email: 'admin@email.email', is_admin: true, password_digest: admin_password)
 
-prd = Product.create(name: 'Generic Wooden Trinket',
+loc = Location.new(address: 'Admin Address',
+                   postal_code: 'R2V4W8',
+                   province: Province.first)
+
+loc.user = usr
+usr.save
+loc.save
+
+Product.create(name: 'Generic Wooden Trinket',
                description: 'Wood',
                price: 1.55,
                stock_quantity: 5)
-
-ord = usr.orders.create(status: 'UNFILLED', pst: 0.1, gst: 0.15)
-
-OrderProduct.create(order: ord, product: prd, quantity: 5, price: 15.99)
