@@ -17,6 +17,7 @@
         </div>
       </div>
       <div class="ui visible negative message" v-if="errors.has('password')">{{ errors.first('password') }}</div>
+      <div class="ui visible negative message" v-if="status == 'BAD_LOGIN'">The username or password were incorrect</div>
     </div>
     <div class="actions">
       <div class="ui black deny button">
@@ -58,8 +59,8 @@
             this.$emit('close');
           })
           .catch(err => {
-            if(err.response)
-              console.log(err.response);
+            if(err.response && err.response.status === 400)
+              this.status = 'BAD_LOGIN';
             else
               console.log(err)
           })
