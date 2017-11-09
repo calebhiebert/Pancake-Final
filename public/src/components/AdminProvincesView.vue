@@ -19,6 +19,7 @@
       <td>{{province.pst}}</td>
       <td>{{province.hst}}</td>
     </tr>
+    <admin-province-row-create></admin-province-row-create>
     </tbody>
     <tfoot>
     <tr>
@@ -31,8 +32,10 @@
 </template>
 <script>
   import {HTTP} from '../http-common'
+  import AdminProvinceRowCreate from "./AdminProvinceRowCreate.vue";
 
   export default {
+    components: {AdminProvinceRowCreate},
     name: 'AdminProvincesView',
 
     data() {
