@@ -11,13 +11,13 @@
     </tr>
     </thead>
     <tbody>
-    <admin-province-row-view v-for="province in provinces" :province="province" :key="province.id"></admin-province-row-view>
-    <admin-province-row-create @created="onNewProvince"></admin-province-row-create>
+    <admin-province-row-view v-for="province in provinces" :province="province" :key="province.id" @deleted="load()"></admin-province-row-view>
+    <admin-province-row-create @created="onNewProvince" v-if="addingProvince"></admin-province-row-create>
     </tbody>
     <tfoot>
     <tr>
       <th colspan="6">
-        <button class="ui primary button" @click="$router.push({name: 'AdminProvincesCreate'})">Add Province</button>
+        <button class="ui primary button" @click="onAddProvince">{{ addingProvince ? 'Cancel' : 'Add Province' }}</button>
       </th>
     </tr>
     </tfoot>
@@ -36,6 +36,7 @@
 
     data() {
       return {
+        addingProvince: false,
         provinces: []
       }
     },
@@ -57,6 +58,14 @@
       onNewProvince(province) {
         province.editMode = false;
         this.provinces.push(province);
+        this.addingProvince = false;
+      },
+
+      onAddProvince() {
+        if(this.addingProvince)
+          this.$emit('reset-new-province-row');
+
+        this.addingProvince = !this.addingProvince
       }
     }
   }

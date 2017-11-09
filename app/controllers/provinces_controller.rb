@@ -1,5 +1,5 @@
 class ProvincesController < ApplicationController
-  before_action :set_province, only: %i[show edit update destroy]
+  before_action :set_province, only: %i[show edit update delete]
 
   def index
     @provinces = Province.all

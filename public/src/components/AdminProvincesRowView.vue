@@ -1,6 +1,12 @@
 <template>
   <tr class="ui form" v-if="province.editMode">
-    <td class="collapsing"><i class="save link icon" v-if="!saving" @click="doSave"></i><div class="ui mini active inline loader" v-else></div></td>
+    <td class="collapsing">
+      <i class="left arrow link icon" @click="province.editMode = false"></i>
+      <i class="save link icon" v-if="!saving" @click="doSave"></i>
+      <div class="ui mini active inline loader" v-else></div>
+      <i class="remove red link icon" v-if="!deleting" @click="doDelete"></i>
+      <div class="ui mini active inline loader" v-else></div>
+    </td>
     <td class="inline field"><input name="code" placeholder="Code" v-model="province.province_code" v-validate="{required: true, min: 2, max: 2}"></td>
     <td class="inline field"><input name="name" placeholder="Name" v-model="province.name" v-validate="'required'"></td>
     <td class="inline field"><input type="number" name="gst" placeholder="GST" v-model="province.gst" v-validate="'decimal'"></td>
@@ -31,23 +37,32 @@
     data() {
       return {
         saving: false,
-        code: '',
-        name: '',
-        gst: 0,
-        pst: 0,
-        hst: 0
+        deleting: false
       }
     },
 
     methods: {
       doSave() {
+        let data = {province_code: this.province.code, name: this.province.name,
+          gst: this.province.gst, pst: this.province.pst, hst: this.province.hst};
+
         this.saving = true;
 
-        HTTP.post('/provinces/' + this.province.id, {province_code: this.code, name: this.name, gst: this.gst, pst: this.pst, hst: this.hst})
+        HTTP.post('/provinces/' + this.province.id, data)
           .then(response => {
-            this.$emit('edited', response.data);
+            console.log(response);
             this.saving = false;
             this.province.editMode = false;
+          })
+          .catch(err => console.log(err))
+      },
+
+      doDelete() {
+        this.deleting = true;
+
+        HTTP.delete('/provinces/' + this.province.id)
+          .then(response => {
+            this.$emit('deleted')
           })
           .catch(err => console.log(err))
       }
