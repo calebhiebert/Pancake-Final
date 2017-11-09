@@ -17,6 +17,13 @@ Rails.application.routes.draw do
   post '/products/:id' => 'products#update'
   delete '/products/:id' => 'products#delete'
 
+  # Provinces
+  get '/provinces' => 'provinces#index'
+  get '/provinces/:id' => 'provinces#show'
+  post '/provinces' => 'provinces#create'
+  post '/provinces/:id' => 'provinces#update'
+  delete '/provinces/:id' => 'provinces#delete'
+
   # Orders
   get '/orders' => 'orders#index'
 
