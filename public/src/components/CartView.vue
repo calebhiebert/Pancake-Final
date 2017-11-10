@@ -1,6 +1,6 @@
 <template>
   <div class="ui clearing segment">
-    <h3 class="ui header">Cart</h3>
+    <h3 class="ui header"><router-link :to="{name: 'CartManage'}">Cart</router-link></h3>
     <div class="ui celled list">
       <cart-item-compact-view v-for="item in cart" :item="item" :key="item.product.id" @removed="refreshCart"></cart-item-compact-view>
     </div>

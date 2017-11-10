@@ -10,6 +10,7 @@ import PageView from '@/components/PageView'
 import AdminIndex from '@/components/AdminIndex'
 import SearchView from '@/components/SearchView'
 import Register from '@/components/Register'
+import CartManage from '@/components/CartManage'
 
 Vue.use(Router);
 
@@ -33,6 +34,9 @@ export default new Router({
     {path: '/register', name: 'Register', component: Register},
 
     //Admin
-    {path: '/admin', name: 'AdminIndex', component: AdminIndex}
+    {path: '/admin', name: 'AdminIndex', component: AdminIndex},
+
+    //Cart
+    {path: '/cart', name: 'CartManage', component: CartManage}
   ]
 })
