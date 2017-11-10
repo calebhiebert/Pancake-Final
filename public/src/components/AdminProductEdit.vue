@@ -18,6 +18,10 @@
         <label for="price">Price</label>
         <input id="price" type="number" v-model="product.price" name="price" v-validate="{ required: true, min_value: 0.00 }">
       </div>
+      <div class="field">
+        <label for="category">Category</label>
+        <input id="category" v-model="product.category" name="category" v-validate="{ required: false, min: 3, max: 255 }">
+      </div>
       <div class="ui error message" v-if="errors.any()">
         <ul>
           <li v-for="error in errors.all()">{{ error }}</li>
@@ -66,7 +70,8 @@
           name: this.product.name,
           description: this.product.description,
           stock_quantity: this.product.stock_quantity,
-          price: this.product.price
+          price: this.product.price,
+          category: this.product.category
         })
           .then(() => {
             this.$router.push({name: 'AdminIndex'})

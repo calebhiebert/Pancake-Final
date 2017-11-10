@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171109012021) do
+ActiveRecord::Schema.define(version: 20171110153928) do
 
   create_table "locations", force: :cascade do |t|
     t.integer "user_id"
@@ -58,7 +58,7 @@ ActiveRecord::Schema.define(version: 20171109012021) do
     t.integer "stock_quantity"
     t.decimal "price"
     t.string "image"
-    t.string "categroy"
+    t.string "category"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

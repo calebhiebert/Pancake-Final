@@ -13,6 +13,7 @@ class ProductsController < ApplicationController
 
   def create
     @product = Product.new(product_params)
+    @product.category = @product.category.upcase
 
     if @product.save
       render json: @product, status: :created

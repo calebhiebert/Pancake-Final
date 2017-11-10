@@ -14,7 +14,7 @@
       <div class="field">
         <label for="stock">Stock Quantity</label>
         <input id="stock" type="number" v-model="product.stock_quantity" name="stock_quantity"
-               v-validate="{ required: true, min_value: 0 }">
+               v-validate="{ required: true, min_value: 0 }" data-vv-as="stock quantity">
       </div>
       <div class="field">
         <label for="price">Price</label>
@@ -23,6 +23,10 @@
                  v-validate="{ required: true, min_value: 0.00 }">
           <i class="dollar icon"></i>
         </div>
+      </div>
+      <div class="field">
+        <label for="category">Category</label>
+        <input id="category" v-model="product.category" name="category" v-validate="{ required: false, min: 3, max: 255 }">
       </div>
       <div class="ui error message" v-if="errors.any()">
         <ul>
@@ -68,7 +72,8 @@
           name: this.product.name,
           description: this.product.description,
           stock_quantity: this.product.stock_quantity,
-          price: this.product.price
+          price: this.product.price,
+          category: this.product.category
         })
           .then(response => {
             this.status = 'CREATED';
