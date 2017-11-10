@@ -13,8 +13,8 @@
     <div class="ui divided items" v-if="items.length > 0 || query.trim() != ''">
       <product-view-list-item v-for="product in items" :product="product" :key="product.id"></product-view-list-item>
     </div>
-    <div v-else>
-      There were no results :(
+    <div class="ui visible message" v-else>
+      <p>There were no results :(</p>
     </div>
   </div>
 </template>
@@ -31,6 +31,7 @@
 
     data() {
       return {
+        loadingResults: false,
         query: '',
         items: [],
         categories: [],
@@ -74,8 +75,10 @@
           return;
         }
 
+        this.loadingResults = true;
+
         HTTP.get('/products/search?query=' + this.query + (this.category !== '' ? '&category=' + this.category : ''))
-          .then(response => this.items = response.data)
+          .then(response => { this.items = response.data; this.loadingResults = false})
           .catch(err => console.log(err))
       },
 
