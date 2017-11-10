@@ -5,6 +5,14 @@ class Product < ApplicationRecord
   validates :stock_quantity, :price,
             numericality: { greater_than_or_equal_to: 0 }
 
+  before_create do
+    self.category = category.upcase unless category.nil?
+  end
+
+  before_update do
+    self.category = category.upcase unless category.nil?
+  end
+
   has_many :order_product
   has_many :order, through: :order_product
 end

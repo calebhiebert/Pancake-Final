@@ -12,6 +12,7 @@ Rails.application.routes.draw do
   # Products
   get '/products' => 'products#index'
   get '/products/search' => 'products#search'
+  get '/products/categories' => 'products#categories'
   get '/products/:id' => 'products#show'
   post '/products' => 'products#create'
   post '/products/:id' => 'products#update'

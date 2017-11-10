@@ -13,7 +13,6 @@ class ProductsController < ApplicationController
 
   def create
     @product = Product.new(product_params)
-    @product.category = @product.category.upcase
 
     if @product.save
       render json: @product, status: :created
@@ -36,8 +35,19 @@ class ProductsController < ApplicationController
   end
 
   def search
-    products = Product.where('name like ? or description like ?', "%#{params[:query]}%", "%#{params[:query]}%")
+    if !params[:category].nil?
+      products = Product.where('name like ? or description like ?',
+                               "%#{params[:query]}%", "%#{params[:query]}%")
+                        .where(category: params[:category])
+    else
+      products = Product.where('name like ? or description like ?',
+                               "%#{params[:query]}%", "%#{params[:query]}%")
+    end
     render json: products
+  end
+
+  def categories
+    render json: Product.distinct.where.not(category: nil).pluck(:category)
   end
 
   private
@@ -49,6 +59,6 @@ class ProductsController < ApplicationController
   def product_params
     params
       .require(:product)
-      .permit(:name, :description, :stock_quantity, :price)
+      .permit(:name, :description, :stock_quantity, :price, :category)
   end
 end
