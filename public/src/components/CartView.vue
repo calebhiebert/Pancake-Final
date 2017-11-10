@@ -5,6 +5,9 @@
       <cart-item-compact-view v-for="item in cart" :item="item" :key="item.product.id" @removed="refreshCart"></cart-item-compact-view>
     </div>
     <button class="ui basic green right floated mini circular icon button" :class="{loading: status == 'ADDING'}" @click="addToCart"><i class="plus icon"></i></button>
+    <select v-model="quantity">
+      <option v-for="n in 10" :value="n">{{n}}</option>
+    </select>
   </div>
 </template>
 <script>
@@ -21,6 +24,7 @@
     data() {
       return {
         status: 'IDLE',
+        quantity: 1,
         cart: []
       }
     },
@@ -34,7 +38,7 @@
         this.status = 'ADDING';
 
         if(this.product !== null) {
-          HTTP.post('/cart/add', { product_id: this.product.id, quantity: 1 })
+          HTTP.post('/cart/add', { product_id: this.product.id, quantity: this.quantity })
             .then(response => {this.cart = response.data; this.status = 'IDLE'})
             .catch(err => console.log(err))
         }

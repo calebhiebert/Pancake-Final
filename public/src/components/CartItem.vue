@@ -1,20 +1,22 @@
 <template>
   <div class="item">
+    <div class="ui small image">
+      <img src="https://picsum.photos/100/100">
+    </div>
     <div class="content">
       <a class="header">
         {{ item.product.name }}
       </a>
       <div class="meta">
-        <span>{{ item.product.description }}</span>
+        <span>${{ item.product.price }}</span>
+        <span>x{{ item.quantity }}</span>
       </div>
-      <div class="ui input">
-        <input placeholder="Quantity" v-model="item.quantity">
+      <div class="description">
+        <p>{{ item.product.description }}</p>
       </div>
-      x ${{ item.product.price }} = ${{ item.quantity * item.product.price }}
       <div class="extra">
-        <div class="ui right floated basic red button">
-          Remove
-        </div>
+        <i class="red right floated large remove link icon" :title="'Remove ' + item.product.name"></i>
+
       </div>
     </div>
   </div>
