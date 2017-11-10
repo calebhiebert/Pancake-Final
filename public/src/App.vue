@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <login-modal v-if="login" @close="login = false" @login="onLoggedIn"></login-modal>
+    <login-modal v-if="login" @close="login = false"></login-modal>
     <nav-bar :pages="pages" :search="search" :me="me" @logout="logout" @login="login = true" :loggingOut="loggingOut"></nav-bar>
     <br/>
     <router-view></router-view>
@@ -9,6 +9,7 @@
 
 <script>
   import {HTTP} from './http-common'
+  import {EventBus} from './EventBus'
   import NavBar from "./components/NavBar.vue";
   import LoginModal from "./components/LoginModal.vue";
 
@@ -59,6 +60,7 @@
     },
 
     created() {
+      EventBus.$on('logged-in', () => this.onLoggedIn());
       this.update()
     }
   }

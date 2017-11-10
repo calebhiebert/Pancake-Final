@@ -1,6 +1,6 @@
 <template>
   <div class="ui clearing container segment">
-    <form class="ui form" :class="{ error: errors.any() }">
+    <form class="ui form" :class="{ error: errors.any(), loading: loading }">
       <div class="field">
         <label for="name">Name</label>
         <input id="name" name="name" v-model="product.name" v-validate="{ required: true, min: 3, max: 255 }">
@@ -45,6 +45,7 @@
     data() {
       return {
         status: '',
+        loading: false,
 
         product: {
           name: '',
@@ -57,8 +58,10 @@
     },
 
     created() {
+      this.loading = true;
+
       HTTP.get('/products/' + this.$route.params.id)
-        .then(response => this.product = response.data)
+        .then(response => { this.product = response.data; this.loading = false })
         .catch(err => console.log(err))
     },
 

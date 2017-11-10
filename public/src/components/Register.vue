@@ -61,6 +61,7 @@
   import Vue from 'vue'
   import VeeValidate from 'vee-validate'
   import {HTTP} from '../http-common'
+  import {EventBus} from '../EventBus'
   Vue.use(VeeValidate);
 
   export default {
@@ -101,7 +102,7 @@
             this.status = 'SENT';
 
             HTTP.post('/register', this.registration)
-              .then(response => { this.$router.replace({name: 'Home'}) })
+              .then(response => { EventBus.$emit('logged-in'); this.$router.replace({name: 'Home'}) })
               .catch(err => console.log(err))
           }
         });
