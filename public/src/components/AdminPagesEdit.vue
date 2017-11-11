@@ -29,6 +29,7 @@
   import Vue from 'vue'
   import VeeValidate from 'vee-validate'
   import {HTTP} from '../http-common'
+  import {EventBus} from '../EventBus'
   Vue.use(VeeValidate);
 
   export default {
@@ -61,7 +62,10 @@
         this.status = 'SENT';
 
         HTTP.post('/pages/' + this.originalTitle, this.page)
-          .then(response => { this.$router.push({name: 'AdminIndex'}) })
+          .then(response => {
+            EventBus.$emit('page-edited');
+            this.$router.push({name: 'AdminIndex'})
+          })
           .catch(err => { console.log(err); this.status = 'ERR' })
       },
 
@@ -69,7 +73,10 @@
         this.status = 'DELETING';
 
         HTTP.delete('/pages/' + this.originalTitle)
-          .then(response => { this.$router.push({name: 'AdminIndex'}) })
+          .then(response => {
+            this.$router.push({name: 'AdminIndex'});
+            EventBus.$emit('page-edited');
+          })
           .catch(err => console.log(err))
       }
     }

@@ -3,7 +3,7 @@
     <h3 class="header">Cart</h3>
     <div class="ui segment">
       <div class="ui divided items">
-        <cart-item v-for="item in cart" :item="item"></cart-item>
+        <cart-item v-for="item in cart" :item="item" :key="item.product.id"></cart-item>
       </div>
       <h4 class="ui horizontal divider header">
         <i class="dollar icon"></i>

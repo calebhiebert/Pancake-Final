@@ -61,6 +61,8 @@
 
     created() {
       EventBus.$on('logged-in', () => this.onLoggedIn());
+      EventBus.$on('page-created', () => this.update());
+      EventBus.$on('page-edited', () => this.update());
       this.update()
     }
   }

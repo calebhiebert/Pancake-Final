@@ -27,6 +27,7 @@
   import Vue from 'vue'
   import VeeValidate from 'vee-validate'
   import {HTTP} from '../http-common'
+  import {EventBus} from '../EventBus'
   Vue.use(VeeValidate);
 
   export default {
@@ -48,7 +49,11 @@
         this.status = 'SENT';
 
         HTTP.post('/pages', this.page)
-          .then(response => { this.$router.push({name: 'AdminIndex'}); this.status = 'OK' })
+          .then(response => {
+            this.$router.push({name: 'AdminIndex'});
+            EventBus.$emit('page-created', response.data);
+            this.status = 'OK'
+          })
           .catch(err => { console.log(err); this.status = 'ERR' })
       }
     }
