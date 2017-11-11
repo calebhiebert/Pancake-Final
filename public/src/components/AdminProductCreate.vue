@@ -77,7 +77,7 @@
         })
           .then(response => {
             this.status = 'CREATED';
-            this.$router.push({name: 'AdminIndex'})
+            this.$router.push({name: 'AdminIndex', query: {view: 'products'}})
           })
           .catch(err => {
             this.status = 'ERROR';

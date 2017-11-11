@@ -89,7 +89,7 @@
         this.status = 'DELETING';
 
         HTTP.delete('/products/' + this.product.id)
-          .then(() => this.$router.push({name: 'AdminIndex'}))
+          .then(() => this.$router.push({name: 'AdminIndex', query: {view: 'products'}}))
           .catch(err => console.log(err))
       }
     }

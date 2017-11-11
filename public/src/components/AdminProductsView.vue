@@ -30,7 +30,7 @@
         <button class="ui primary button" @click="$router.push({name: 'AdminProductCreate'})">Add Product</button>
         <div class="ui right floated pagination menu" v-if="numPages > 1">
           <a class="icon item" @click="prevPage()"><i class="left chevron icon"></i></a>
-          <a class="item" v-for="n in numPages" :class="{ active: page == n }" @click="page = n">{{n}}</a>
+          <a class="item" v-for="n in numPages" :class="{ active: pageState.page == n }" @click="pageState.page = n">{{n}}</a>
           <a class="icon item" @click="nextPage()"><i class="right chevron icon"></i></a>
         </div>
       </th>
@@ -44,33 +44,33 @@
   export default {
     name: 'AdminProductsView',
 
+    props: ['pageState'],
+
     data() {
       return {
-        page: 1,
-        productsPerPage: 3,
         products: []
       }
     },
 
     computed: {
       numPages() {
-        return Math.ceil(this.products.length / this.productsPerPage)
+        return Math.ceil(this.products.length / this.pageState.productsPerPage)
       },
       productsInPage() {
-        let start = (this.page - 1) * this.productsPerPage;
-        return this.products.slice(start, start + this.productsPerPage)
+        let start = (this.pageState.page - 1) * this.pageState.productsPerPage;
+        return this.products.slice(start, start + this.pageState.productsPerPage)
       }
     },
 
     methods: {
       nextPage() {
-        if(this.page < this.numPages)
-          this.page++
+        if(this.pageState.page < this.numPages)
+          this.pageState.page++
       },
 
       prevPage() {
-        if(this.page > 1)
-          this.page--
+        if(this.pageState.page > 1)
+          this.pageState.page--
       },
 
       truncate(str, num) {
