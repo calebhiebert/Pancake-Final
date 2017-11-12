@@ -11,7 +11,7 @@
         <textarea id="description" v-model="product.description" name="description" v-validate="{ required: true, min: 3, max: 16000 }"></textarea>
       </div>
 
-      <admin-image-edit id="image" :images="images"></admin-image-edit>
+      <admin-image-edit :images="images"></admin-image-edit>
 
       <div class="field">
         <label for="stock">Stock Quantity</label>
