@@ -10,6 +10,9 @@
         <label for="description">Description</label>
         <textarea id="description" v-model="product.description" name="description" v-validate="{ required: true, min: 3, max: 16000 }"></textarea>
       </div>
+
+      <admin-image-edit id="image" :images="images"></admin-image-edit>
+
       <div class="field">
         <label for="stock">Stock Quantity</label>
         <input id="stock" type="number" v-model="product.stock_quantity" name="stock_quantity" v-validate="{ required: true, min_value: 0 }">
@@ -37,15 +40,26 @@
   import Vue from 'vue'
   import VeeValidate from 'vee-validate'
   import {HTTP} from '../http-common'
+  import AdminImageEdit from "./AdminImageEdit.vue";
   Vue.use(VeeValidate);
 
   export default {
+    components: {AdminImageEdit},
     name: 'AdminProductEdit',
 
     data() {
       return {
         status: '',
         loading: false,
+
+        images: [
+          {ident: 'sdfsdf', ext: 'png'},
+          {ident: 'sdfsdf', ext: 'png'},
+          {ident: 'sdfsdf', ext: 'png'},
+          {ident: 'sdfsdf', ext: 'png'},
+          {ident: 'sdfsdf', ext: 'png'},
+          {ident: 'sdfsdf', ext: 'png'},
+        ],
 
         product: {
           name: '',

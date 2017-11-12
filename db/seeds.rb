@@ -13,7 +13,7 @@ Province.create([
 
 admin_password = BCrypt::Password.create('admin')
 usr = User.new(first_name: 'Admin', last_name: 'Adminison',
-            email: 'admin@email.email', is_admin: true, password_digest: admin_password)
+               email: 'admin', is_admin: true, password_digest: admin_password)
 
 loc = Location.new(address: 'Admin Address',
                    postal_code: 'R2V4W8',
