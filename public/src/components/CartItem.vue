@@ -1,9 +1,13 @@
 <template>
   <div class="item">
-    <div class="ui small image">
+    <div class="ui tiny image">
       <img src="https://picsum.photos/100/100">
     </div>
     <div class="content">
+      <div class="ui right floated blue label">
+        <i class="dollar icon"></i>
+        {{ item.product.price * item.quantity }}
+      </div>
       <a class="header">
         {{ item.product.name }}
       </a>
@@ -11,20 +15,69 @@
         <span>${{ item.product.price }}</span>
         <span>x{{ item.quantity }}</span>
       </div>
-      <div class="description">
-        <p>{{ item.product.description }}</p>
-      </div>
       <div class="extra">
-        <i class="red right floated large remove link icon" :title="'Remove ' + item.product.name"></i>
-
+        <div class="ui right floated mini action input" v-if="editMode">
+          <input type="number" placeholder="Quantity" min="1" v-model.number="editedQuantity">
+          <button class="ui teal button" :class="{loading: saving}" @click="doSave">Save</button>
+          <button class="ui button" @click="editMode = false">Cancel</button>
+        </div>
+        <a :title="'Remove ' + item.product.name" @click="doRemove" v-if="!removing">Remove</a>
+        <span v-else>Removing...<span class="ui active inline mini loader"></span></span>
+        <a title="Edit Quantity" @click="doEdit">Edit Quantity</a>
       </div>
     </div>
   </div>
 </template>
 <script>
+  import {HTTP} from '../http-common'
+
   export default {
     name: 'CartItem',
 
-    props: ['item']
+    props: ['item'],
+
+    data() {
+      return {
+        editedQuantity: 0,
+        saving: false,
+        removing: false,
+        editMode: false
+      }
+    },
+
+    methods: {
+      doEdit() {
+        this.editedQuantity = this.item.quantity;
+        this.editMode = true;
+      },
+
+      doSave() {
+        if(this.editedQuantity <= 0) {
+          this.editMode = false;
+          return
+        }
+
+        this.saving = true;
+
+        HTTP.post('/cart/add', {product_id: this.item.product.id, quantity: this.editedQuantity})
+          .then(response => {
+            this.saving = false;
+            this.editMode = false;
+            this.$emit('cart-changed', response.data)
+          })
+          .catch(err => console.log(err))
+      },
+
+      doRemove() {
+        this.removing = true;
+
+        HTTP.post('/cart/remove', {product_id: this.item.product.id})
+          .then(response => {
+            this.removing = false;
+            this.$emit('cart-changed', response.data)
+          })
+          .catch(err => console.log(err))
+      }
+    }
   }
 </script>

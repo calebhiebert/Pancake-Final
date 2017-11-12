@@ -6,6 +6,8 @@ class CartController < ApplicationController
 
     if product.nil?
       render json: { error: 'Product not found' }, status: :not_found
+    elsif parms[:quantity].to_i <= 0
+      render json: { error: 'Quantity must be 1 or more' }, status: :unprocessable_entity
     else
       remove_from_cart_by_product_id(product.id)
       session[:cart] << { product: product.id, quantity: parms[:quantity] }
