@@ -10,7 +10,16 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171110153928) do
+ActiveRecord::Schema.define(version: 20171112020042) do
+
+  create_table "images", force: :cascade do |t|
+    t.integer "product_id"
+    t.string "ext"
+    t.string "ident"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["product_id"], name: "index_images_on_product_id"
+  end
 
   create_table "locations", force: :cascade do |t|
     t.integer "user_id"
@@ -57,7 +66,6 @@ ActiveRecord::Schema.define(version: 20171110153928) do
     t.text "description"
     t.integer "stock_quantity"
     t.decimal "price"
-    t.string "image"
     t.string "category"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false

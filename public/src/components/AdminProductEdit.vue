@@ -11,7 +11,7 @@
         <textarea id="description" v-model="product.description" name="description" v-validate="{ required: true, min: 3, max: 16000 }"></textarea>
       </div>
 
-      <admin-image-edit :images="images"></admin-image-edit>
+      <admin-image-edit :product="product" v-if="product.id !== 0"></admin-image-edit>
 
       <div class="field">
         <label for="stock">Stock Quantity</label>
@@ -52,16 +52,10 @@
         status: '',
         loading: false,
 
-        images: [
-          {ident: 'sdfsdf', ext: 'png'},
-          {ident: 'sdfsdf', ext: 'png'},
-          {ident: 'sdfsdf', ext: 'png'},
-          {ident: 'sdfsdf', ext: 'png'},
-          {ident: 'sdfsdf', ext: 'png'},
-          {ident: 'sdfsdf', ext: 'png'},
-        ],
+        images: [],
 
         product: {
+          id: 0,
           name: '',
           description: '',
           stock_quantity: 0,
@@ -75,7 +69,7 @@
       this.loading = true;
 
       HTTP.get('/products/' + this.$route.params.id)
-        .then(response => { this.product = response.data; this.loading = false })
+        .then(response => { this.product = response.data; this.loading = false; console.log(this.product) })
         .catch(err => console.log(err))
     },
 

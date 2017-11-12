@@ -7,7 +7,7 @@
   export default {
     name: 'ProgressBar',
 
-    props: ['percentage'],
+    props: ['percentage', 'done'],
 
     mounted() {
       $(this.$el).progress({percent: this.percentage})
@@ -17,6 +17,12 @@
       percentage() {
         console.log(this.percentage);
         $(this.$el).progress('set', this.percentage)
+      },
+
+      done() {
+        if(this.done) {
+          $(this.$el).progress('complete')
+        }
       }
     }
   }

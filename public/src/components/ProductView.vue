@@ -7,8 +7,8 @@
       </div>
     </div>
     <div class="ui stackable three column grid" v-else>
-      <div class="three wide column">
-        <img class="ui centered medium rounded image" :src="IMG()">
+      <div class="three wide column" v-if="img !== ''">
+        <img class="ui centered medium rounded image" :src="img">
       </div>
       <div class="eight wide column">
         <h3 class="ui header">{{product.name}}</h3>
@@ -26,9 +26,8 @@
   </div>
 </template>
 <script>
-  import {HTTP} from '../http-common'
+  import {HTTP, GETIMG} from '../http-common'
   import Cart from "./CartView.vue";
-  import {IMGURL} from '../imageTools'
 
   export default {
     components: {Cart},
@@ -44,18 +43,26 @@
     },
 
     created() {
-      this.load()
+      this.load();
     },
 
     watch: {
       $route: 'load'
     },
 
-    methods: {
-      IMG() {
-        return IMGURL.getImg(0, 1084, 300, 300)
-      },
+    computed: {
+      img() {
+        if(this.product === null || this.product.images.length === 0) {
+          return ''
+        } else {
+          let img = this.product.images[0];
 
+          return GETIMG(img.ident, img.ext)
+        }
+      }
+    },
+
+    methods: {
       load() {
         HTTP.get('/products/' + this.$route.params.id)
           .then(response => {this.product = response.data})

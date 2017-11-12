@@ -32,7 +32,7 @@ class CartController < ApplicationController
         full_cart << { product: product, quantity: item[:quantity] }
       end
     end
-    render json: full_cart
+    render json: full_cart, include: :images
   end
 
   def clear

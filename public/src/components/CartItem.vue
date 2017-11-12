@@ -1,12 +1,12 @@
 <template>
   <div class="item">
     <div class="ui tiny image">
-      <img src="https://picsum.photos/100/100">
+      <img :src="img">
     </div>
     <div class="content">
       <div class="ui right floated blue label">
         <i class="dollar icon"></i>
-        {{ item.product.price * item.quantity }}
+        {{ (item.product.price * item.quantity).toFixed(2) }}
       </div>
       <a class="header">
         {{ item.product.name }}
@@ -29,7 +29,7 @@
   </div>
 </template>
 <script>
-  import {HTTP} from '../http-common'
+  import {HTTP, GETIMG} from '../http-common'
 
   export default {
     name: 'CartItem',
@@ -42,6 +42,17 @@
         saving: false,
         removing: false,
         editMode: false
+      }
+    },
+
+    computed: {
+      img() {
+        if(this.item.product.images.length === 0) {
+          return ''
+        } else {
+          let img = this.item.product.images[0];
+          return GETIMG(img.ident, img.ext)
+        }
       }
     },
 

@@ -1,13 +1,13 @@
 <template>
   <div id="dzone" class="ui segment" :class="{ raised: hovering }">
     <div class="ui four stackable cards">
-      <div class="card" v-for="image in images">
+      <div class="card" v-for="image in product.images">
         <div class="ui image">
-          <img src="https://picsum.photos/200/200">
+          <img :src="'http://localhost/uploads/' + image.ident + image.ext">
         </div>
         <div class="extra content">
           {{ image.ext }}
-          <a class="right floated star">
+          <a class="right floated star" @click="removeImage(image.ident)">
             <i class="remove icon"></i>
             Remove
           </a>
@@ -19,12 +19,13 @@
           <img :src="image.src">
         </div>
         <div class="extra content">{{ image.type }}</div>
-        <progress-bar :percentage="image.percentage" :done=""></progress-bar>
+        <progress-bar :percentage="image.percentage" :done="image.done"></progress-bar>
       </div>
     </div>
   </div>
 </template>
 <script>
+  import {HTTP, BASEURL} from '../http-common'
   import Dropzone from 'dropzone'
   import ProgressBar from "./ProgressBar.vue";
 
@@ -34,7 +35,7 @@
     components: {ProgressBar},
     name: 'AdminImageEdit',
 
-    props: ['images'],
+    props: ['product'],
 
     data() {
       return {
@@ -43,11 +44,21 @@
       }
     },
 
+    methods: {
+      removeImage(ident) {
+        HTTP.delete('/images/' + ident)
+          .then(response => {
+            this.product.images = this.product.images.filter(i => i.ident !== response.data.ident)
+          })
+          .catch(err => console.log(err))
+      }
+    },
+
     mounted() {
       let vm = this;
 
       dropzone = new Dropzone('div#dzone', {
-        url: 'http://192.168.1.110:3000/images/1',
+        url: BASEURL + '/images/' + this.product.id,
         paramName: 'image',
 
         autoQueue: true,
@@ -72,6 +83,7 @@
           vm.$set(vm.files, file.upload.uuid, {
             type: file.type,
             src: null,
+            done: false,
             percentage: 0
           });
         },
@@ -84,14 +96,24 @@
           vm.$set(vm.files[file.upload.uuid], 'src', datauri);
         },
 
-        error(file, err) {
-          console.log(err)
+        error(file, err, xhr) {
+          console.log(err);
+          console.log(xhr);
         },
 
         uploadprogress(file, percent) {
           vm.$set(vm.files[file.upload.uuid], 'percentage', percent)
+        },
+
+        success(file, response) {
+          vm.$set(vm.files[file.upload.uuid], 'done', true);
+          vm.product.images.push(response);
         }
       });
+
+      dropzone.on('success', file => {
+        dropzone.removeFile(file);
+      })
     }
   }
 </script>

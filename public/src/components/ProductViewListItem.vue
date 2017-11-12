@@ -2,7 +2,7 @@
   <div class="item">
     <div class="ui small rounded image">
       <div class="ui red ribbon label">New!</div>
-      <img :src="IMG(0, 1084, 150, 150)">
+      <img :src="img">
     </div>
     <div class="content">
       <router-link :to="{ name: 'ProductView', params: { id: product.id } }" class="header">{{ product.name }}</router-link>
@@ -13,12 +13,20 @@
   </div>
 </template>
 <script>
-  import {IMGURL} from '../imageTools'
+  import {GETIMG} from '../http-common'
 
   export default {
     name: 'ProductViewListItem',
     props: ['product'],
 
-    methods: { IMG: IMGURL.getImg }
+    computed: {
+      img() {
+        if(this.product.images.length === 0) {
+          return ''
+        } else {
+          return GETIMG(this.product.images[0].ident, this.product.images[0].ext)
+        }
+      }
+    }
   }
 </script>
