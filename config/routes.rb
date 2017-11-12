@@ -18,6 +18,11 @@ Rails.application.routes.draw do
   post '/products/:id' => 'products#update'
   delete '/products/:id' => 'products#delete'
 
+  # Images
+  get '/images/:ident' => 'images#get'
+  post '/images/:productid' => 'images#upload'
+  delete '/images/:ident' => 'images#delete'
+
   # Provinces
   get '/provinces' => 'provinces#index'
   get '/provinces/:id' => 'provinces#show'
