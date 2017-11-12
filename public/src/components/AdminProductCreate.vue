@@ -34,6 +34,11 @@
         </ul>
       </div>
     </form>
+    <button class="ui right floated green left labeled icon button" :class="{ loading: status == 'SENT_IMG', disabled: errors.any() }"
+            @click="doCreate(true)">
+      <i class="image icon"></i>
+      Create & Add Images
+    </button>
     <button class="ui right floated primary button" :class="{ loading: status == 'SENT', disabled: errors.any() }"
             @click="doCreate">Create
     </button>
@@ -65,8 +70,13 @@
     },
 
     methods: {
-      doCreate() {
-        this.status = 'SENT';
+      doCreate(addimg = false) {
+        this.$validator.validateAll();
+        if(this.errors.any()) {
+          return
+        }
+
+        this.status = addimg ? 'SENT_IMG' : 'SENT';
 
         HTTP.post('/products', {
           name: this.product.name,
@@ -77,7 +87,11 @@
         })
           .then(response => {
             this.status = 'CREATED';
-            this.$router.push({name: 'AdminIndex', query: {view: 'products'}})
+            if(addimg) {
+              this.$router.push({name: 'AdminProductEdit', params: {id: response.data.id}})
+            } else {
+              this.$router.push({name: 'AdminIndex', query: {view: 'products'}})
+            }
           })
           .catch(err => {
             this.status = 'ERROR';
