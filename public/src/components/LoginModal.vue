@@ -32,7 +32,7 @@
 </template>
 <script>
   import {HTTP} from '../http-common'
-  import {EventBus} from '../EventBus'
+  import {EventBus, Me} from '../EventBus'
   import Vue from 'vue';
   import VeeValidate from 'vee-validate';
 
@@ -55,9 +55,16 @@
 
         HTTP.post('/login', { email: this.email, password: this.password })
           .then(response => {
+            console.log(response);
             $(this.$el).modal('hide');
-            EventBus.$emit('logged-in');
             this.$emit('close');
+
+            HTTP.get('/me')
+              .then(response => {
+                Me.me = response.data;
+                EventBus.$emit('me-updated');
+              })
+              .catch(err => console.log(err))
           })
           .catch(err => {
             if(err.response && err.response.status === 400)

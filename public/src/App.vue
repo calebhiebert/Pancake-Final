@@ -9,7 +9,7 @@
 
 <script>
   import {HTTP} from './http-common'
-  import {EventBus} from './EventBus'
+  import {EventBus, Me} from './EventBus'
   import NavBar from "./components/NavBar.vue";
   import LoginModal from "./components/LoginModal.vue";
 
@@ -38,10 +38,12 @@
           .catch(err => console.log(err));
 
         HTTP.get('/me')
-          .then(response => this.me = response.data)
+          .then(response => { Me.me = response.data; EventBus.$emit('me-updated') })
           .catch(err => {
-            if(!err.response)
-              console.log(err)
+            if(!err.response) {
+              console.log(err);
+              this.me = null;
+            }
           });
       },
 
@@ -49,18 +51,13 @@
         this.loggingOut = true;
 
         HTTP.post('/logout')
-          .then(response => { this.me = null; this.loggingOut = false })
+          .then(response => { Me.me = null; EventBus.$emit('me-updated'); this.loggingOut = false })
           .catch(err => console.log(err))
-      },
-
-      onLoggedIn() {
-        this.login = false;
-        this.update()
       }
     },
 
     created() {
-      EventBus.$on('logged-in', () => this.onLoggedIn());
+      EventBus.$on('me-updated', () => { this.login = false; this.me = Me.me });
       EventBus.$on('page-created', () => this.update());
       EventBus.$on('page-edited', () => this.update());
       this.update()

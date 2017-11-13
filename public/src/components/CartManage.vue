@@ -10,7 +10,7 @@
         {{ total }}
       </h4>
 
-      <button class="ui right floated right labeled green icon button">
+      <button class="ui right floated right labeled green icon button" @click="$router.push({name: 'Checkout'})">
         <i class="right arrow icon"></i>
         Check Out
       </button>

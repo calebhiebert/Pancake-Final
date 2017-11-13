@@ -46,7 +46,9 @@ class AuthController < ApplicationController
 
     user = User.where(email: info[:email]).first
 
-    unless user.nil?
+    if user.nil?
+      render json: { error: 'Bad Login' }, status: :bad_request
+    else
       pass = BCrypt::Password.new(user[:password_digest])
 
       if pass == info[:password]

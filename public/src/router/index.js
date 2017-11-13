@@ -11,6 +11,7 @@ import AdminIndex from '@/components/AdminIndex'
 import SearchView from '@/components/SearchView'
 import Register from '@/components/Register'
 import CartManage from '@/components/CartManage'
+import Checkout from '@/components/Checkout'
 
 Vue.use(Router);
 
@@ -37,6 +38,8 @@ export default new Router({
     {path: '/admin', name: 'AdminIndex', component: AdminIndex},
 
     //Cart
-    {path: '/cart', name: 'CartManage', component: CartManage}
+    {path: '/cart', name: 'CartManage', component: CartManage},
+
+    {path: '/checkout', name: 'Checkout', component: Checkout}
   ]
 })
