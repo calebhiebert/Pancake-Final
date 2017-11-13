@@ -15,8 +15,7 @@
 
     watch: {
       percentage() {
-        console.log(this.percentage);
-        $(this.$el).progress('set', this.percentage)
+        $(this.$el).progress('set percent', this.percentage)
       },
 
       done() {

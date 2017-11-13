@@ -1,9 +1,17 @@
 <template>
   <div id="dzone" class="ui segment" :class="{ raised: hovering }">
+    <a>
+      <div class="ui basic center aligned segment" id="clickme">
+        <div class="ui horizontal divider header">
+          <i class="upload icon"></i>
+          Drag / Click
+        </div>
+      </div>
+    </a>
     <div class="ui four stackable cards">
       <div class="card" v-for="image in product.images">
         <div class="ui image">
-          <img :src="'http://localhost/uploads/' + image.ident + image.ext">
+          <img :src="getImg(image.ident, image.ext)">
         </div>
         <div class="extra content">
           {{ image.ext }}
@@ -18,14 +26,14 @@
         <div class="ui image">
           <img :src="image.src">
         </div>
-        <div class="extra content">{{ image.type }}</div>
+        <div class="extra content">Uploading... <span class="ui active inline mini loader"></span></div>
         <progress-bar :percentage="image.percentage" :done="image.done"></progress-bar>
       </div>
     </div>
   </div>
 </template>
 <script>
-  import {HTTP, BASEURL} from '../http-common'
+  import {HTTP, BASEURL, GETIMG} from '../http-common'
   import Dropzone from 'dropzone'
   import ProgressBar from "./ProgressBar.vue";
 
@@ -51,6 +59,10 @@
             this.product.images = this.product.images.filter(i => i.ident !== response.data.ident)
           })
           .catch(err => console.log(err))
+      },
+
+      getImg(ident, ext) {
+        return GETIMG(ident, ext)
       }
     },
 
@@ -60,8 +72,9 @@
       dropzone = new Dropzone('div#dzone', {
         url: BASEURL + '/images/' + this.product.id,
         paramName: 'image',
-
+        clickable: '#clickme',
         autoQueue: true,
+        acceptedFiles: 'image/*',
 
         dragenter(event) {
           vm.hovering = true;

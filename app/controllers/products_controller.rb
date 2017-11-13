@@ -43,7 +43,7 @@ class ProductsController < ApplicationController
       products = Product.where('name like ? or description like ?',
                                "%#{params[:query]}%", "%#{params[:query]}%")
     end
-    render json: products, include: :images
+    render json: products
   end
 
   def categories
