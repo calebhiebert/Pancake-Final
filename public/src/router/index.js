@@ -12,6 +12,7 @@ import SearchView from '@/components/SearchView'
 import Register from '@/components/Register'
 import CartManage from '@/components/CartManage'
 import Checkout from '@/components/Checkout'
+import Me from '@/components/Me'
 
 Vue.use(Router);
 
@@ -41,6 +42,9 @@ export default new Router({
     {path: '/cart', name: 'CartManage', component: CartManage},
 
     {path: '/checkout', name: 'Checkout', component: Checkout},
-    {path: '/checkout/:orderid', name: 'CheckoutOrderConf', component: Checkout}
+    {path: '/checkout/:orderid', name: 'CheckoutOrderConf', component: Checkout},
+
+    //Me
+    {path: '/me', name: 'Me', component: Me}
   ]
 })
