@@ -19,7 +19,13 @@
         Continue Shopping
       </button>
     </div>
-    <div class="ui message" v-if="cart.length == 0">Your cart is empty</div>
+    <div class="ui icon message" v-if="loading">
+      <i class="notched circle loading icon"></i>
+      <div class="content">
+        <div class="header">Loading</div>
+      </div>
+    </div>
+    <div class="ui message" v-if="cart.length == 0 && !loading">Your cart is empty</div>
     <button class="ui right floated labeled blue icon button" @click="$router.push({name: 'Home'})" v-if="cart.length == 0">
       <i class="shop icon"></i>
       Add Some Items
@@ -36,6 +42,7 @@
 
     data() {
       return {
+        loading: true,
         cart: []
       }
     },
@@ -46,8 +53,9 @@
 
     methods: {
       loadCart() {
+        this.loading = true;
         HTTP.get('/cart')
-          .then(response => this.cart = response.data)
+          .then(response => { this.cart = response.data; this.loading = false })
           .catch(err => console.log(err))
       },
 

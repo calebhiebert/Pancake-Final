@@ -1,13 +1,11 @@
 <template>
   <div id="dzone" class="ui segment" :class="{ raised: hovering }">
-    <a>
-      <div class="ui basic center aligned segment" id="clickme">
-        <div class="ui horizontal divider header">
-          <i class="upload icon"></i>
-          Drag / Click
-        </div>
+    <div class="ui basic center aligned segment" id="clickme">
+      <div class="ui horizontal divider header">
+        <i class="upload icon"></i>
+        Drag / Click
       </div>
-    </a>
+    </div>
     <div class="ui four stackable cards">
       <div class="card" v-for="image in product.images">
         <div class="ui image">
@@ -32,6 +30,11 @@
     </div>
   </div>
 </template>
+<style>
+  #clickme {
+    cursor: pointer !important;
+  }
+</style>
 <script>
   import {HTTP, BASEURL, GETIMG} from '../http-common'
   import Dropzone from 'dropzone'
