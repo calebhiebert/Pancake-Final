@@ -48,11 +48,11 @@
     },
 
     created() {
-      this.loadCart()
+      this.load()
     },
 
     methods: {
-      loadCart() {
+      load() {
         this.loading = true;
         HTTP.get('/cart')
           .then(response => { this.cart = response.data; this.loading = false })

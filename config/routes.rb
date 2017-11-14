@@ -32,6 +32,7 @@ Rails.application.routes.draw do
 
   # Orders
   get '/orders' => 'orders#index'
+  post '/orders' => 'orders#create'
 
   # Pages
   get '/pages' => 'pages#index'
@@ -45,4 +46,7 @@ Rails.application.routes.draw do
   post '/cart/clear' => 'cart#clear'
   post '/cart/remove' => 'cart#remove'
   get '/cart' => 'cart#get'
+
+  # Billing
+  post '/billme' => 'billing#make_payment'
 end

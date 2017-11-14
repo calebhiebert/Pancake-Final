@@ -24,7 +24,7 @@ class UsersController < ApplicationController
   end
 
   def me
-    render json: @calling_user
+    render json: @calling_user, include: {location: {include: :province}}
   end
 
   private
