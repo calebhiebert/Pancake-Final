@@ -19,6 +19,9 @@
     <div class="ui message" v-if="!loggedin">
       Please log in to continue
     </div>
+    <div class="ui segment" v-if="billing">
+      This will contain a summary of the order
+    </div>
   </div>
 </template>
 <script>
@@ -29,7 +32,14 @@
 
     data() {
       return {
-        loggedin: false
+        loggedin: false,
+        billing: false
+      }
+    },
+
+    watch: {
+      loggedin() {
+        this.billing = this.loggedin
       }
     },
 
