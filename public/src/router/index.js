@@ -41,6 +41,6 @@ export default new Router({
     {path: '/cart', name: 'CartManage', component: CartManage},
 
     {path: '/checkout', name: 'Checkout', component: Checkout},
-    {path: '/checkout/:orderid', name: 'Checkout', component: Checkout}
+    {path: '/checkout/:orderid', name: 'CheckoutOrderConf', component: Checkout}
   ]
 })

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171112020042) do
+ActiveRecord::Schema.define(version: 20171114204353) do
 
   create_table "images", force: :cascade do |t|
     t.integer "product_id"
@@ -51,6 +51,7 @@ ActiveRecord::Schema.define(version: 20171112020042) do
     t.decimal "hst"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "stripe_charge_id"
     t.index ["user_id"], name: "index_orders_on_user_id"
   end
 

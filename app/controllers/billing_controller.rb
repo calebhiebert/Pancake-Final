@@ -3,19 +3,24 @@ class BillingController < ApplicationController
 
   def make_payment
     Stripe.api_key = 'sk_test_4f6ByZyhkj5DL427l14LLz7O'
-    calc_subtotal
-    calc_tax
 
     token = params.require(:token)
+    orderid = params.require(:orderid)
+
+    order = Order.find(orderid)
 
     charge = Stripe::Charge.create(
-      amount: ((@subtotal + @tax) * 100).to_i,
+      amount: (order.total * 100).to_i,
       currency: 'cad',
       description: 'Example Charge',
       source: token[:id]
     )
 
-    logger.info(charge)
+    order.stripe_charge_id = charge[:id]
+    order.status = 'PAID'
+    order.save
+
+    render json: order, except: :stripe_charge_id
   end
 
   private

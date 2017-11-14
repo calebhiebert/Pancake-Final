@@ -15,11 +15,18 @@
           <div class="description">Lock in those products</div>
         </div>
       </div>
-      <div class="step" :class="{ active: confirmed && order !== null }">
+      <div class="step" :class="{ active: confirmed && order !== null && order.status == 'UNPAID', completed: order !== null && order.status == 'PAID' }">
         <i class="payment icon"></i>
         <div class="content">
           <div class="title">Billing</div>
           <div class="description">Confirm billing info</div>
+        </div>
+      </div>
+      <div class="step" :class="{completed: order !== null && order.status == 'PAID'}">
+        <i class="payment icon"></i>
+        <div class="content">
+          <div class="title">Payment</div>
+          <div class="description">Please give us your money</div>
         </div>
       </div>
     </div>
@@ -30,74 +37,44 @@
     </div>
 
 
-    <table class="ui celled padded table" v-if="!loading && loggedin && !confirmed">
-      <thead>
-      <tr>
-        <th>Product</th>
-        <th>Quantity</th>
-        <th>Price</th>
-      </tr>
-      </thead>
-      <tbody>
-      <tr v-for="item in cart">
-        <td>{{ item.product.name }}</td>
-        <td>{{ item.quantity }}</td>
-        <td>{{ (item.product.price * item.quantity).toFixed(2) }}</td>
-      </tr>
-      </tbody>
-    </table>
-    <div class="ui basic right aligned segment" v-if="!loading && loggedin && !confirmed">
-      <span>Subtotal: {{ subtotal.toFixed(2) }}</span>
-      <br/>
-      <span v-if="gst != 0">GST: {{ gst.toFixed(2) }}</span>
-      <br v-if="gst != 0" />
-      <span v-if="pst != 0">PST: {{ pst.toFixed(2) }}</span>
-      <br v-if="pst != 0" />
-      <span v-if="hst != 0">HST: {{ hst.toFixed(2) }}</span>
-      <br v-if="hst != 0" />
-      <h4>Total: {{ total.toFixed(2) }}</h4>
-    </div>
+    <checkout-cart-display :cart="cart" :me="me" v-if="!loading && loggedin && !confirmed"></checkout-cart-display>
     <button class="ui right floated right labeled green icon button" :class="{ loading: confirming }" v-if="!loading && loggedin && !confirmed" @click="confirmOrder">
       <i class="checkmark icon"></i>
       Confirm Order
     </button>
 
-    <table class="ui padded celled table" v-if="!loading && billing">
-      <thead>
-      <tr>
-        <th>Product</th>
-        <th>Quantity</th>
-        <th>Price</th>
-      </tr>
-      </thead>
-      <tbody>
-      <tr v-for="li in order.order_product">
-        <td>{{ li.product.name }}</td>
-        <td>{{ li.quantity }}</td>
-        <td>{{ (li.product.price * li.quantity).toFixed(2) }}</td>
-      </tr>
-      </tbody>
-    </table>
-    <button class="ui right floated labeled green icon button" v-if="!loading && billing" @click="pay">
-      <i class="payment icon"></i>
-      Pay Now
-    </button>
+    <checkout-order-display :order="order" v-if="!loading && order !== null && order.status == 'UNPAID'" @pay="pay" :class="{loading: processing}"></checkout-order-display>
   </div>
 </template>
 <script>
+  import CheckoutOrderDisplay from "./CheckoutOrderDisplay.vue";
+
+  let order = null;
+  let vm = null;
   let handler = StripeCheckout.configure({
     key: 'pk_test_xWpnvA7uBgwI34wvfT4ZsFbH',
     locale: 'auto',
 
     token(token) {
-      console.log(token)
+      console.log(token);
+      HTTP.post('/billme', {token: token, orderid: order.id})
+        .then(response => {
+          console.log(response);
+          vm.order = response.data;
+          vm.processing = false;
+        })
+        .catch(err => console.log(err))
     }
   });
 
   import {EventBus, Me} from '../EventBus'
   import {HTTP} from '../http-common'
+  import CheckoutCartDisplay from "./CheckoutCartDisplay.vue";
 
   export default {
+    components: {
+      CheckoutCartDisplay,
+      CheckoutOrderDisplay},
     name: 'Checkout',
 
     data() {
@@ -107,6 +84,7 @@
         loggedin: false,
         confirmed: false,
         confirming: false,
+        processing: false,
         billing: false,
         loading: true,
         me: null
@@ -123,58 +101,15 @@
       },
 
       $route() {
-        if(this.$route.params.orderid != null) {
+        if(this.$route.params.orderid !== undefined) {
           this.loadOrder(this.$route.params.orderid)
         }
-      }
-    },
-
-    computed: {
-      subtotal() {
-        let st = 0;
-        this.cart.forEach(it => st += (it.product.price * it.quantity));
-        return st;
-      },
-
-      gst() {
-        if(this.me != null)
-          return this.subtotal * Me.me.location.province.gst;
-        else
-          return 0
-      },
-
-      pst() {
-        if(this.me != null)
-          return this.subtotal * Me.me.location.province.pst;
-        else
-          return 0
-      },
-
-      hst() {
-        if(this.me != null)
-          return this.subtotal * Me.me.location.province.hst;
-        else
-          return 0
-      },
-
-      total() {
-        return this.subtotal + this.gst + this.pst + this.hst;
       }
     },
 
     methods: {
       load() {
         this.loading = true;
-
-        HTTP.get('/cart')
-          .then(response => {
-            this.cart = response.data;
-
-            if(this.me !== null) {
-              this.loading = false;
-            }
-          })
-          .catch(err => console.log(err));
 
         HTTP.get('/me')
           .then(response => {
@@ -193,8 +128,29 @@
           .then(response => {
             this.order = response.data;
             this.confirmed = true;
+            order = this.order;
+
+            if(this.me !== null) {
+              this.loading = false;
+            }
           })
           .catch(err => console.log(err))
+      },
+
+      loadCart() {
+        HTTP.get('/cart')
+          .then(response => {
+            this.cart = response.data;
+
+            if(this.me !== null) {
+              this.loading = false;
+            }
+
+            if(this.cart.length === 0) {
+              this.$router.replace({name: 'Home'});
+            }
+          })
+          .catch(err => console.log(err));
       },
 
       confirmOrder() {
@@ -204,22 +160,25 @@
           .then(response => {
             this.confirming = false;
             this.confirmed = true;
-            this.$router.replace({name: 'Checkout', params: {orderid: response.data.id}});
-            console.log(response)
+
+            this.$router.replace({name: 'CheckoutOrderConf', params: {orderid: response.data.id}});
           })
           .catch(err => console.log(err))
       },
 
-      pay() {
+      pay(total) {
+        this.processing = true;
+
         handler.open({
           name: 'Willy\'s Wood',
           currency: 'cad',
-          amount: this.total * 100
-        })
+          amount: total * 100
+        });
       }
     },
 
-    mounted() {
+    created() {
+      vm = this;
       this.loggedin = Me.me !== null;
 
       EventBus.$on('me-updated', () => {
@@ -229,8 +188,10 @@
 
       this.load();
 
-      if(this.$route.params.orderid != null) {
+      if(this.$route.params.orderid !== undefined) {
         this.loadOrder(this.$route.params.orderid)
+      } else {
+        this.loadCart()
       }
     }
   }
