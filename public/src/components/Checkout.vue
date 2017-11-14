@@ -8,14 +8,14 @@
           <div class="description">Tell us who you are</div>
         </div>
       </div>
-      <div class="step" :class="{ completed: confirmed, active: loggedin }">
+      <div class="step" :class="{ completed: confirmed && order !== null, active: loggedin && !confirmed }">
         <i class="shopping basket icon"></i>
         <div class="content">
           <div class="title">Confirm Order</div>
           <div class="description">Lock in those products</div>
         </div>
       </div>
-      <div class="step">
+      <div class="step" :class="{ active: confirmed && order !== null }">
         <i class="payment icon"></i>
         <div class="content">
           <div class="title">Billing</div>
@@ -23,10 +23,14 @@
         </div>
       </div>
     </div>
+
+
     <div class="ui message" v-if="!loggedin">
       Please log in to continue
     </div>
-    <table class="ui celled padded table" v-if="!loading && loggedin">
+
+
+    <table class="ui celled padded table" v-if="!loading && loggedin && !confirmed">
       <thead>
       <tr>
         <th>Product</th>
@@ -42,7 +46,7 @@
       </tr>
       </tbody>
     </table>
-    <div class="ui basic right aligned segment" v-if="!loading && loggedin">
+    <div class="ui basic right aligned segment" v-if="!loading && loggedin && !confirmed">
       <span>Subtotal: {{ subtotal.toFixed(2) }}</span>
       <br/>
       <span v-if="gst != 0">GST: {{ gst.toFixed(2) }}</span>
@@ -53,10 +57,27 @@
       <br v-if="hst != 0" />
       <h4>Total: {{ total.toFixed(2) }}</h4>
     </div>
-    <button class="ui right floated right labeled green icon button" v-if="!loading && loggedin" @click="confirmOrder">
+    <button class="ui right floated right labeled green icon button" :class="{ loading: confirming }" v-if="!loading && loggedin && !confirmed" @click="confirmOrder">
       <i class="checkmark icon"></i>
       Confirm Order
     </button>
+
+    <table class="ui padded celled table" v-if="!loading && billing">
+      <thead>
+      <tr>
+        <th>Product</th>
+        <th>Quantity</th>
+        <th>Price</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr v-for="li in order.order_product">
+        <td>{{ li.product.name }}</td>
+        <td>{{ li.quantity }}</td>
+        <td>{{ (li.product.price * li.quantity).toFixed(2) }}</td>
+      </tr>
+      </tbody>
+    </table>
     <button class="ui right floated labeled green icon button" v-if="!loading && billing" @click="pay">
       <i class="payment icon"></i>
       Pay Now
@@ -81,6 +102,7 @@
 
     data() {
       return {
+        order: null,
         cart: [],
         loggedin: false,
         confirmed: false,
@@ -98,6 +120,12 @@
 
       confirmed() {
         this.billing = this.loggedin && this.confirmed
+      },
+
+      $route() {
+        if(this.$route.params.orderid != null) {
+          this.loadOrder(this.$route.params.orderid)
+        }
       }
     },
 
@@ -160,12 +188,23 @@
           .catch(err => console.log(err))
       },
 
+      loadOrder(id) {
+        HTTP.get('/orders/' + id)
+          .then(response => {
+            this.order = response.data;
+            this.confirmed = true;
+          })
+          .catch(err => console.log(err))
+      },
+
       confirmOrder() {
         this.confirming = true;
 
         HTTP.post('/orders')
           .then(response => {
             this.confirming = false;
+            this.confirmed = true;
+            this.$router.replace({name: 'Checkout', params: {orderid: response.data.id}});
             console.log(response)
           })
           .catch(err => console.log(err))
@@ -182,11 +221,17 @@
 
     mounted() {
       this.loggedin = Me.me !== null;
+
       EventBus.$on('me-updated', () => {
         this.loggedin = Me.me !== null;
         this.me = Me.me
       });
-      this.load()
+
+      this.load();
+
+      if(this.$route.params.orderid != null) {
+        this.loadOrder(this.$route.params.orderid)
+      }
     }
   }
 </script>

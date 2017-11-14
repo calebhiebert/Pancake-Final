@@ -25,6 +25,10 @@ class OrdersController < ApplicationController
     end
   end
 
+  def show
+    render json: Order.find(params[:orderid]), include: { order_product: {include: :product} }
+  end
+
   private
 
   def make_line_items(order, cart)
