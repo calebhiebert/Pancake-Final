@@ -50,7 +50,7 @@
       },
 
       category() {
-        if(this.category.trim().length > 0)
+        if(this.category.trim() !== '')
           this.$router.replace({name: 'SearchView', query: { query: this.query, category: this.category }});
         else
           this.$router.replace({name: 'SearchView', query: { query: this.query }});
