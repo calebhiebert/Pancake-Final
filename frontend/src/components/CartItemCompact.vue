@@ -6,7 +6,7 @@
     <div class="content">
       <router-link :to="{name: 'ProductView', params: {id: item.product.id}}" class="header">{{item.product.name}} x {{item.quantity}}</router-link>
       <div class="description">
-        <b>$</b>{{item.product.price * item.quantity}}
+        <b>$</b>{{ (item.product.price * item.quantity).toFixed(2) }}
       </div>
     </div>
   </div>

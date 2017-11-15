@@ -49,7 +49,7 @@
                                 v-if="!loading && order !== null && order.status == 'UNPAID'" @pay="pay"
                                 :class="{loading: processing}"></checkout-order-display>
 
-        <div class="ui positive visible message">
+        <div class="ui positive visible message" v-if="!loading && order !== null && order.status == 'PAID'">
             <span class="header">All Done!</span>
             <p>Your order is complete and will be shipped soon</p>
         </div>
