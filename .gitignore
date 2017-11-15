@@ -23,5 +23,6 @@
 .byebug_history
 
 /public/node_modules
-/frontend/dist
+/public/dist
 .idea/
+public/uploads/
