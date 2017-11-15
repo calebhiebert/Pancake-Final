@@ -6,14 +6,14 @@
       <div class="field">
         <label for="email">Email</label>
         <div class="ui fluid input">
-          <input id="email" name="email" v-model="email" v-validate="'required|email'" placeholder="Email">
+          <input id="email" name="email" v-model="email" v-validate="'required'" placeholder="Email" @keyup.enter="doLogin">
         </div>
       </div>
       <div class="ui visible negative message" v-if="errors.has('email')">{{ errors.first('email') }}</div>
       <div class="field">
         <label for="password">Password</label>
         <div class="ui fluid input">
-          <input id="password" name="password" v-model="password" v-validate="'required'" type="password" placeholder="Password">
+          <input id="password" name="password" v-model="password" v-validate="'required'" type="password" placeholder="Password" @keyup.enter="doLogin">
         </div>
       </div>
       <div class="ui visible negative message" v-if="errors.has('password')">{{ errors.first('password') }}</div>
