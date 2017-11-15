@@ -1,8 +1,8 @@
 import axios from 'axios';
 
-export const BASEURL = 'https://wood.piikl.com';
+export const BASEURL = 'http://localhost';
 
-export const GETIMG = (ident, ext) => { return BASEURL + '/uploads/' + ident + ext};
+export const GETIMG = (ident) => { return BASEURL + '/images/' + ident};
 
 export const HTTP = axios.create({
   baseURL: BASEURL,

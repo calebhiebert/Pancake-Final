@@ -20,6 +20,8 @@ Rails.application.routes.draw do
 
   # Images
   get '/images/:ident' => 'images#get'
+  get '/images/:ident/:width' => 'images#get_sized'
+  get '/images/:ident/:width/:height' => 'images#get_sized'
   post '/images/:productid' => 'images#upload'
   delete '/images/:ident' => 'images#delete'
 

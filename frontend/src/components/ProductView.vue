@@ -8,7 +8,7 @@
         </div>
         <div class="ui stackable three column grid" v-else>
             <div class="three wide column" v-if="img !== ''">
-                <img class="ui centered medium rounded image" :src="img">
+                <img class="ui centered medium rounded image" :src="img + '/300'">
             </div>
             <div class="eight wide column">
                 <h3 class="ui header">{{product.name}}</h3>
@@ -61,7 +61,7 @@
                 } else {
                     let img = this.product.images[0];
 
-                    return GETIMG(img.ident, img.ext)
+                    return GETIMG(img.ident)
                 }
             }
         },

@@ -56,6 +56,30 @@ class ImagesController < ApplicationController
       return
     end
 
-    send_file Rails.root.join('public', 'uploads', img.ident + img.ext), type: 'image/jpeg'
+    send_file Rails.root.join('public', 'uploads', img.ident + img.ext), type: 'image/jpeg', disposition: 'inline'
+  end
+
+  def get_sized
+    ident = params[:ident]
+    w = params[:width]
+    h = params[:height]
+    img = Image.where(ident: ident).first
+
+    if img.nil?
+      render json: { error: 'Image does not exist' }
+      return
+    end
+
+    image = MiniMagick::Image.open(Rails.root.join('public', 'uploads', img.ident + img.ext))
+
+    if !w.nil? && !h.nil?
+      image.resize("#{w}x#{h}")
+    elsif !w.nil? && h.nil?
+      image.resize(w.to_s)
+    end
+
+    image.format 'jpg'
+
+    send_file image.path, type: 'image/jpeg', disposition: 'inline'
   end
 end

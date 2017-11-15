@@ -1,7 +1,7 @@
 <template>
   <div class="item">
     <div class="ui tiny image">
-      <img :src="img">
+      <img :src="img + '/50'">
     </div>
     <div class="content">
       <div class="ui right floated blue label">
@@ -51,7 +51,7 @@
           return ''
         } else {
           let img = this.item.product.images[0];
-          return GETIMG(img.ident, img.ext)
+          return GETIMG(img.ident)
         }
       }
     },

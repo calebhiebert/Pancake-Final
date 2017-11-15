@@ -9,7 +9,7 @@
     <div class="ui four stackable cards">
       <div class="card" v-for="image in product.images">
         <div class="ui image">
-          <img :src="getImg(image.ident, image.ext)">
+          <img :src="getImg(image.ident) + '/160'">
         </div>
         <div class="extra content">
           {{ image.ext }}
@@ -64,8 +64,8 @@
           .catch(err => console.log(err))
       },
 
-      getImg(ident, ext) {
-        return GETIMG(ident, ext)
+      getImg(ident) {
+        return GETIMG(ident)
       }
     },
 

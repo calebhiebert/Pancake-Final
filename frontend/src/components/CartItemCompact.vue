@@ -2,7 +2,7 @@
   <div class="item">
     <div class="ui right floated active inline mini loader" v-if="status == 'REMOVING'"></div>
     <i class="ui right floated red link remove icon" @click="doRemove" v-else></i>
-    <img class="ui avatar image" :src="img" v-if="img != ''">
+    <img class="ui avatar image" :src="img + '/50'" v-if="img != ''">
     <div class="content">
       <router-link :to="{name: 'ProductView', params: {id: item.product.id}}" class="header">{{item.product.name}} x {{item.quantity}}</router-link>
       <div class="description">
@@ -41,7 +41,7 @@
           return ''
         } else {
           let img = this.item.product.images[0];
-          return GETIMG(img.ident, img.ext)
+          return GETIMG(img.ident)
         }
       }
     }
