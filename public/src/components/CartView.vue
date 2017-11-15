@@ -12,7 +12,6 @@
 </template>
 <script>
   import {HTTP} from '../http-common'
-  import {IMGURL} from '../imageTools'
   import CartItemCompactView from "./CartItemCompact.vue";
 
   export default {
@@ -48,9 +47,7 @@
         HTTP.get('/cart')
           .then(response => this.cart = response.data)
           .catch(err => console.log(err))
-      },
-
-      IMG() { return IMGURL.getImg(0, 1080, 64, 64) }
+      }
     }
   }
 </script>

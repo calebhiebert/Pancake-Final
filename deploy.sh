@@ -1,9 +1,5 @@
 #!/bin/bash
 
-#cd /home/panchem/Pancake-Final
-cd /home/serv/pancake
-#git pull
-
 docker build -t panchem/woodshop .
 
 docker stop woodshop

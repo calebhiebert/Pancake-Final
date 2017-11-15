@@ -12,7 +12,6 @@
   </div>
 </template>
 <script>
-  import {IMGURL} from '../imageTools'
   import {HTTP, GETIMG} from '../http-common'
 
   export default {
@@ -27,8 +26,6 @@
     },
 
     methods: {
-      IMG() {return IMGURL.getImg(0, 0, 64, 64)},
-
       doRemove() {
         this.status = 'REMOVING';
 
