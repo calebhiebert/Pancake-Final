@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-export const BASEURL = 'http://192.168.1.110:3000';
+export const BASEURL = 'https://wood.piikl.com';
 
 export const GETIMG = (ident, ext) => { return BASEURL + '/uploads/' + ident + ext};
 

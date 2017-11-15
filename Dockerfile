@@ -1,6 +1,7 @@
 FROM ruby:2.3
 
 RUN mkdir -p /usr/src/app
+RUN mkdir -p /usr/src/app/public/uploads
 WORKDIR /usr/src/app
 
 RUN apt-get update && apt-get install -y nodejs --no-install-recommends && rm -rf /var/lib/apt/lists/*

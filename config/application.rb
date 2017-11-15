@@ -16,7 +16,7 @@ module Woodshop
     # -- all .rb files in that directory are automatically loaded.
     config.middleware.insert_before 0, Rack::Cors do
       allow do
-        origins 'localhost:8080'
+        origins 'localhost:8080', 'woodshop.faultline.piikl.com', 'woodshop.piikl.com'
         resource '*', :headers => :any, :methods => [:get, :post, :options, :delete], :credentials => true
       end
     end
