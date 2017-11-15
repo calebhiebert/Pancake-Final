@@ -12,7 +12,6 @@
         <tr>
             <th></th>
             <th>Name</th>
-            <th>Description</th>
             <th>Stock</th>
             <th>Price</th>
             <th>Created</th>
@@ -28,11 +27,10 @@
             <td>
                 <router-link :to="{name: 'ProductView', params: {id: product.id}}">{{product.name}}</router-link>
             </td>
-            <td>{{ truncate(product.description, 150) }}</td>
             <td>{{product.stock_quantity}}</td>
             <td>{{product.price}}</td>
-            <td>{{product.created_at}}</td>
-            <td>{{product.updated_at}}</td>
+            <td>{{ moment(product.created_at).format('llll') }}</td>
+            <td>{{ moment(product.updated_at).format('llll') }}</td>
         </tr>
         </tbody>
         <tfoot>
@@ -53,6 +51,7 @@
 </template>
 <script>
     import {HTTP} from '../http-common'
+    import moment from 'moment'
 
     export default {
         name: 'AdminProductsView',
@@ -62,7 +61,8 @@
         data() {
             return {
                 loading: true,
-                products: []
+                products: [],
+                moment
             }
         },
 
@@ -85,15 +85,6 @@
             prevPage() {
                 if (this.pageState.page > 1)
                     this.pageState.page--
-            },
-
-            truncate(str, num) {
-                if (str.length > num) {
-                    str = str.slice(0, num);
-                    return str + '...';
-                } else {
-                    return str
-                }
             }
         },
 

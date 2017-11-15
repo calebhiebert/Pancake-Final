@@ -23,8 +23,8 @@
             <td>
                 <router-link :to="{name: 'PageView', params: {title: page.title}}">{{page.title}}</router-link>
             </td>
-            <td>{{page.created_at}}</td>
-            <td>{{page.updated_at}}</td>
+            <td>{{ moment(page.created_at).format('llll') }}</td>
+            <td>{{ moment(page.updated_at).format('llll') }}</td>
         </tr>
         </tbody>
         <tfoot>
@@ -38,6 +38,7 @@
 </template>
 <script>
     import {HTTP} from '../http-common'
+    import moment from 'moment'
 
     export default {
         name: 'AdminPagesView',
@@ -45,7 +46,8 @@
         data() {
             return {
                 pages: [],
-                loading: true
+                loading: true,
+                moment
             }
         },
 
