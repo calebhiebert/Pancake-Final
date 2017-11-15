@@ -28,7 +28,7 @@
       <h4>Total: {{ total.toFixed(2) }}</h4>
     </div>
 
-    <button class="ui right floated labeled green icon button" @click="$emit('pay', total)">
+    <button class="ui right floated labeled green icon button" :class="{loading: processing}" @click="$emit('pay', total)">
       <i class="payment icon"></i>
       Pay Now
     </button>
@@ -38,7 +38,7 @@
   export default {
     name: 'CheckoutOrderDisplay',
 
-    props: ['order'],
+    props: ['order', 'processing'],
 
     computed: {
       subtotal() {

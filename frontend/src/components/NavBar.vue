@@ -10,9 +10,9 @@
       <div class="right menu">
         <router-link :to="{name: 'Register'}" class="ui item" v-if="me === null">Register</router-link>
         <a class="ui item" v-if="me === null" @click="$emit('login')">Login</a>
-        <a class="ui item" v-else-if="loggingOut"><div class="ui active inline mini loader"></div></a>
         <a class="ui item" v-if="me !== null" @click="$router.push({name: 'Me'})">Me</a>
-        <a class="ui item" v-if="me !== null" @click="$emit('logout')">Logout</a>
+        <a class="ui item" v-if="me !== null && !loggingOut" @click="$emit('logout')">Logout</a>
+        <a class="ui item" v-if="loggingOut"><div class="ui active inline mini loader"></div></a>
         <div class="ui item">
           <div class="ui transparent icon input">
             <input placeholder="search..." v-model="search.query">
