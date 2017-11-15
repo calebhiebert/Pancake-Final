@@ -9,9 +9,9 @@ COPY Gemfile .
 COPY Gemfile.lock .
 
 RUN bundle install
-RUN rake db:create && rake db:migrate
 
 COPY . .
+RUN rake db:create && rake db:migrate && rake db:seed
 
 EXPOSE 3000
 
