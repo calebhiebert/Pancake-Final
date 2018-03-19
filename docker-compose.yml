@@ -2,7 +2,7 @@ version: '3'
 
 services:
   backend:
-    build: .
+    image: panchem/woodshopapi
     ports:
       - "3000:3000"
     environment:
@@ -11,7 +11,7 @@ services:
       - LETSENCRYPT_HOST=woodshopapi.piikl.com
       - LETSENCRYPT_EMAIL=info@piikl.com
   frontend:
-    build: ./frontend
+    image: panchem/woodshop
     ports:
       - "8082:80"
     environment:
